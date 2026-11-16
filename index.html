@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Engineer Academy — Free Self-Study Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBF8F3; --panel:#FFFFFF; --ink:#1C1A17; --muted:#6B655C; --line:#E9E3D8;
+  --accent:#E8590C; --accent-soft:#FFF0E6; --green:#2F9E44; --green-soft:#EBFBEE;
+  --blue:#1971C2; --blue-soft:#E7F5FF; --purple:#7048E8; --purple-soft:#F3F0FF;
+  --code:#1E1E2E; --radius:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.2;margin:0 0 .5em}
+code{font-family:"JetBrains Mono",monospace;font-size:.88em;background:#F1ECE3;padding:1px 6px;border-radius:6px}
+pre{background:var(--code);color:#E7E3F5;padding:16px;border-radius:12px;overflow-x:auto;font-family:"JetBrains Mono",monospace;font-size:13.5px;line-height:1.55;margin:12px 0}
+pre code{background:none;padding:0;color:inherit}
+.c{color:#8B8BA7}
+
+/* layout */
+.app{display:flex;min-height:100vh}
+.side{width:300px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--line);position:sticky;top:0;height:100vh;overflow-y:auto;padding:22px 16px}
+.main{flex:1;min-width:0;padding:32px 40px 80px;max-width:880px}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.logo{width:36px;height:36px;border-radius:10px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-family:Fraunces,serif}
+.brand b{font-family:Fraunces,serif;font-size:18px}
+.overall{margin:14px 4px 18px}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .4s}
+.overall small{color:var(--muted);font-size:12.5px;display:block;margin-top:6px}
+.navlabel{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:16px 8px 6px}
+.navitem{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;font-size:14px;color:var(--ink);border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.navitem:hover{background:var(--bg)}
+.navitem.active{background:var(--accent-soft);font-weight:600}
+.num{width:26px;height:26px;border-radius:8px;background:var(--bg);display:grid;place-items:center;font-size:12px;font-weight:700;flex-shrink:0;border:1px solid var(--line)}
+.navitem.done .num{background:var(--green);color:#fff;border-color:var(--green)}
+.navitem .t{flex:1;line-height:1.3}
+.navitem .p{font-size:11px;color:var(--muted)}
+
+.topbar{display:none}
+
+/* content */
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px}
+.hero h1{font-size:38px}
+.lead{font-size:18px;color:var(--muted);margin:0 0 20px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.chip{font-size:12.5px;padding:5px 11px;border-radius:99px;background:var(--panel);border:1px solid var(--line);color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin:16px 0}
+.card h2{font-size:24px}
+.card h3{font-size:19px;margin-top:6px}
+.callout{border-radius:12px;padding:14px 16px;margin:14px 0;font-size:15px}
+.callout b:first-child{display:block;margin-bottom:2px}
+.eli5{background:var(--accent-soft);border-left:4px solid var(--accent)}
+.real{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.tip{background:var(--green-soft);border-left:4px solid var(--green)}
+.warn{background:#FFF9DB;border-left:4px solid #F59F00}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5}
+.tab{border:1px solid var(--line);background:var(--panel);padding:8px 14px;border-radius:99px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;color:var(--ink)}
+.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.lesson{border:1px solid var(--line);border-radius:14px;background:var(--panel);margin:12px 0;overflow:hidden}
+.lesson summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;gap:12px;font-weight:600}
+.lesson summary::-webkit-details-marker{display:none}
+.lesson summary .chk{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);flex-shrink:0;display:grid;place-items:center;font-size:13px;color:#fff}
+.lesson.isdone summary .chk{background:var(--green);border-color:var(--green)}
+.lesson summary .arrow{margin-left:auto;color:var(--muted);transition:transform .2s}
+.lesson[open] summary .arrow{transform:rotate(90deg)}
+.lbody{padding:0 20px 20px;border-top:1px solid var(--line)}
+.lbody p,.lbody li{font-size:15.5px}
+.lbody ul{padding-left:20px}
+.markbtn{margin-top:10px;border:none;background:var(--green);color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;cursor:pointer;font-family:inherit;font-size:14px}
+.markbtn.undo{background:var(--line);color:var(--ink)}
+
+.vid{display:flex;gap:14px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:var(--panel);text-decoration:none;color:var(--ink)}
+.vid:hover{border-color:var(--accent)}
+.play{width:44px;height:44px;border-radius:12px;background:#FF0033;display:grid;place-items:center;flex-shrink:0}
+.play svg{width:18px;height:18px;fill:#fff}
+.play.search{background:var(--ink)}
+.vid b{display:block;font-size:15px;line-height:1.35}
+.vid span{font-size:13px;color:var(--muted)}
+.vid em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+
+.q{margin:18px 0;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+.q p{font-weight:600;margin:0 0 8px}
+.opt{display:block;width:100%;text-align:left;padding:11px 14px;margin:6px 0;border:1.5px solid var(--line);border-radius:10px;background:var(--panel);cursor:pointer;font-family:inherit;font-size:15px;color:var(--ink)}
+.opt:hover{border-color:var(--ink)}
+.opt.right{border-color:var(--green);background:var(--green-soft)}
+.opt.wrong{border-color:#E03131;background:#FFF5F5}
+.expl{font-size:14px;color:var(--muted);margin-top:6px;display:none}
+.expl.show{display:block}
+.score{font-weight:700;font-size:18px}
+
+.gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.term{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--panel)}
+.term b{display:block;font-size:14.5px}
+.term span{font-size:13.5px;color:var(--muted)}
+
+.task{background:var(--purple-soft);border:1px solid #D0BFFF;border-radius:var(--radius);padding:20px 22px}
+.task h3{color:var(--purple)}
+.task ol{padding-left:20px}
+.task li{margin:6px 0}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mcard{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--panel);cursor:pointer;transition:transform .15s,border-color .15s}
+.mcard:hover{transform:translateY(-2px);border-color:var(--accent)}
+.mcard .k{font-size:12px;color:var(--accent);font-weight:700}
+.mcard h3{font-size:17px;margin:4px 0}
+.mcard p{font-size:13.5px;color:var(--muted);margin:0 0 10px}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.navbtns{display:flex;justify-content:space-between;gap:10px;margin-top:28px}
+.btn{border:1px solid var(--ink);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;cursor:pointer;font-family:inherit;font-size:14.5px}
+.btn.ghost{background:transparent;color:var(--ink)}
+.footer{font-size:12.5px;color:var(--muted);margin-top:40px}
+
+@media (max-width:860px){
+  .side{position:fixed;left:0;top:0;z-index:50;transform:translateX(-100%);transition:transform .25s;box-shadow:0 0 40px rgba(0,0,0,.15)}
+  .side.open{transform:none}
+  .main{padding:16px 16px 80px}
+  .topbar{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:12px}
+  .topbar button{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 12px;font-family:inherit;font-weight:600;cursor:pointer}
+  .topbar .bar{flex:1}
+  .hero h1{font-size:30px}
+  .grid2{grid-template-columns:1fr}
+  .tabs{top:52px}
+  .card{padding:18px}
+}
+.scrim{display:none}
+@media (max-width:860px){.scrim.show{display:block;position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:40}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side" id="side"></aside>
+  <div class="scrim" id="scrim"></div>
+  <main class="main" id="main"></main>
+</div>
+
+<script>
+/* ---------- helpers ---------- */
+const yt = id => "https://www.youtube.com/watch?v=" + id;
+const ys = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+
+/* ---------- COURSE CONTENT ---------- */
+const MODULES = [
+/* ===== MODULE 0 ===== */
+{
+ id:"m0", short:"Start Here", title:"Start Here: How This Course Works",
+ weeks:"Week 0 · 2–3 hours",
+ intro:"Before learning AI, set up your free tools and a study routine. Everything in this course is free. You only need a laptop (or even a phone for reading) and internet.",
+ eli5:"Think of this module as packing your bag before a trip. No travelling yet, just making sure you have everything.",
+ lessons:[
+  {t:"What an AI Engineer actually does", b:`
+<p>An <b>AI Engineer</b> builds products that use artificial intelligence. Not just research. Real apps people use: chatbots, recommendation systems, tools that read documents, apps that recognise images.</p>
+<div class="callout real"><b>Real life example</b>When you upload a receipt to a banking app and it reads the amount automatically, an AI engineer built that.</div>
+<p>Your journey in this course follows the same order a real AI engineer learns:</p>
+<ul>
+<li><b>Programming</b> → talk to computers (Python)</li>
+<li><b>Data</b> → AI learns from data, so you must handle data</li>
+<li><b>Machine Learning</b> → teaching computers to find patterns</li>
+<li><b>Deep Learning</b> → the brain-like networks behind modern AI</li>
+<li><b>Cloud (Azure)</b> → where real AI apps live</li>
+<li><b>Generative AI and Agents</b> → ChatGPT/Claude-style AI that creates and acts</li>
+<li><b>Capstone</b> → build a portfolio project to get hired</li>
+</ul>
+<div class="callout tip"><b>Your advantage</b>If you come from design, you already think about users. Many AI engineers can build models but can't build things people enjoy using. You'll be able to do both.</div>`},
+  {t:"Set up your free tools (15 minutes)", b:`
+<p>You don't need to install anything heavy. We'll use <b>Google Colab</b>, a free notebook that runs Python in your browser on Google's computers (even with free GPUs for deep learning).</p>
+<ol>
+<li>Go to <a href="https://colab.research.google.com" target="_blank">colab.research.google.com</a> and sign in with Gmail.</li>
+<li>Click <b>New notebook</b>.</li>
+<li>In the first box (a "cell"), type <code>print("Hello, AI!")</code> and press <b>Shift + Enter</b>.</li>
+<li>If you see <i>Hello, AI!</i> appear below, you just ran your first code. 🎉</li>
+</ol>
+<p>Also create free accounts on:</p>
+<ul>
+<li><a href="https://github.com" target="_blank">GitHub</a>: where you'll save your projects (your coding portfolio).</li>
+<li><a href="https://www.kaggle.com/learn" target="_blank">Kaggle</a>: free datasets + short practice courses.</li>
+<li><a href="https://learn.microsoft.com/training/" target="_blank">Microsoft Learn</a>: free official Azure lessons (for Module 6 & 7).</li>
+</ul>`},
+  {t:"Your study routine (the secret to finishing)", b:`
+<p>The paid course is 24 weeks at 6–10 hours/week. You can match that for free:</p>
+<table>
+<tr><th>Day</th><th>What to do</th><th>Time</th></tr>
+<tr><td>Mon</td><td>Read 1–2 lessons here</td><td>1 hr</td></tr>
+<tr><td>Tue</td><td>Watch the module video (part)</td><td>1–1.5 hr</td></tr>
+<tr><td>Wed</td><td>Code along in Colab</td><td>1.5 hr</td></tr>
+<tr><td>Thu</td><td>Watch more + take notes</td><td>1 hr</td></tr>
+<tr><td>Sat</td><td>Practice task / project</td><td>2–3 hr</td></tr>
+<tr><td>Sun</td><td>Rest + take the quiz</td><td>20 min</td></tr>
+</table>
+<div class="callout tip"><b>Golden rules</b>1) Type the code yourself, never just watch. 2) When stuck for 20+ minutes, ask an AI (Claude/ChatGPT): "Explain this error like I'm a beginner". 3) Long videos are fine at 1.25× speed. 4) Don't aim for perfect understanding; aim for "I get the main idea". It clicks later.</div>`},
+  {t:"How to use this app", b:`
+<ul>
+<li>Each module has <b>Lessons</b> (simple explanations), <b>Videos</b> (best free YouTube picks), <b>Quiz</b>, <b>Practice</b> (a hands-on task) and <b>Key Terms</b>.</li>
+<li>Tap <b>Mark as done</b> after each lesson. Your progress bar fills up and is saved in this browser.</li>
+<li>🔴 red buttons open a specific video. ⚫ black buttons open a YouTube search, used where the best video changes often (e.g. new Microsoft tools), so you always get the latest.</li>
+</ul>`}
+ ],
+ videos:[
+  {u:yt("zjkBMFhNj_g"), t:"Intro to Large Language Models", s:"Andrej Karpathy · 1 hr · Watch this first for motivation: the big picture of modern AI", tag:"Inspiration"},
+  {u:ys("what does an AI engineer do roadmap 2026"), t:"Search: AI Engineer roadmap (latest)", s:"Pick one recent video under 20 minutes", search:true}
+ ],
+ quiz:[
+  {q:"What is Google Colab?", o:["A paid AI course","A free tool to run Python in your browser","A type of neural network","A Microsoft cloud service"], a:1, e:"Colab lets you write and run Python online using Google's computers. No installation needed."},
+  {q:"What is the best way to learn from coding videos?", o:["Watch at 2× speed without stopping","Type the code yourself as you watch","Only read the comments","Skip to the end"], a:1, e:"Typing it yourself builds muscle memory and reveals what you don't understand."},
+  {q:"Why does an AI engineer need to learn data handling?", o:["Because AI learns from data","It's not needed","Only for exams","To design logos"], a:0, e:"AI models learn patterns from data. Bad data in = bad AI out."}
+ ],
+ task:{t:"Your first win", steps:["Create Colab, GitHub and Kaggle accounts.","In Colab, run print(\"Hello, AI!\") and then print your name.","Write in a notebook cell: 3 AI products you use and what you think the AI does in each.","Block your study time in your calendar for the next 4 weeks."]},
+ terms:[["AI","Computers doing tasks that normally need human intelligence"],["Notebook","A document where you mix code, results and notes"],["Colab","Google's free online notebook for Python"],["GitHub","A website to store and share code"],["GPU","A powerful chip that makes AI training fast"]]
+},
+
+/* ===== MODULE 1 ===== */
+{
+ id:"m1", short:"Programming Basics", title:"Module 1: Basics of Programming",
+ weeks:"Week 1 · ~6 hours",
+ intro:"How computers think: data as 0s and 1s, how code becomes instructions, and the four building blocks of every program: variables, conditions, loops and functions.",
+ eli5:"A program is a recipe. The computer is a super-fast cook who follows every step exactly, but has zero common sense. Programming is learning to write very clear recipes.",
+ lessons:[
+  {t:"How computers store everything (binary)", b:`
+<p>Computers only understand <b>two states</b>: on (1) and off (0). Each 0 or 1 is called a <b>bit</b>. 8 bits = 1 <b>byte</b>.</p>
+<p>With enough bits you can represent anything:</p>
+<ul>
+<li><b>Numbers</b>: 5 in binary is <code>101</code> (4 + 0 + 1).</li>
+<li><b>Letters</b>: "A" is stored as the number 65 (a code called ASCII/Unicode).</li>
+<li><b>Images</b>: every pixel is 3 numbers: how much Red, Green, Blue (you know RGB from design!).</li>
+<li><b>Sound</b>: a long list of numbers measuring the sound wave.</li>
+</ul>
+<div class="callout real"><b>Why this matters for AI</b>AI never "sees" a photo. It sees a giant grid of numbers. Everything in AI is turning the world into numbers and finding patterns in them.</div>`},
+  {t:"Compilers vs interpreters", b:`
+<p>You write code in a human-friendly language. The computer needs it translated to 0s and 1s. Two ways to translate:</p>
+<ul>
+<li><b>Compiler</b>: translates the <i>whole book</i> first, then runs it. Fast to run. (C, C++, Go)</li>
+<li><b>Interpreter</b>: translates and runs <i>line by line</i>, like a live translator. Easier to test. (Python, JavaScript)</li>
+</ul>
+<div class="callout eli5"><b>Simple version</b>Compiler = translate the whole speech before the event. Interpreter = translate each sentence as the speaker talks.</div>
+<p>Python is interpreted, which is why you can run one line at a time in Colab and see results immediately.</p>`},
+  {t:"Variables: boxes with labels", b:`
+<p>A <b>variable</b> stores a value so you can use it later.</p>
+<pre><code>name = "Ada"        <span class="c"># text (string)</span>
+age = 25            <span class="c"># whole number (integer)</span>
+height = 1.68       <span class="c"># decimal (float)</span>
+is_student = True   <span class="c"># yes/no (boolean)</span>
+
+print(name, "is", age)</code></pre>
+<p>The <code>=</code> sign means "put this value in the box", not "equals" like in maths.</p>`},
+  {t:"Conditions: making decisions", b:`
+<p>Programs make choices with <code>if</code> / <code>elif</code> / <code>else</code>.</p>
+<pre><code>temperature = 34
+
+if temperature > 30:
+    print("It's hot. Drink water!")
+elif temperature > 20:
+    print("Nice weather")
+else:
+    print("Bring a jacket")</code></pre>
+<p>Note the <b>indentation</b> (the spaces at the start). Python uses it to know which lines belong inside the <code>if</code>.</p>`},
+  {t:"Loops: repeat without rewriting", b:`
+<p>Loops repeat actions. Two main types:</p>
+<pre><code><span class="c"># FOR loop: repeat for each item</span>
+for fruit in ["mango", "orange", "pawpaw"]:
+    print("I like", fruit)
+
+<span class="c"># WHILE loop: repeat while something is true</span>
+count = 3
+while count > 0:
+    print(count)
+    count = count - 1
+print("Lift off!")</code></pre>
+<div class="callout real"><b>In AI</b>Training an AI model is literally a loop: "look at data → make a guess → measure the mistake → adjust → repeat 10,000 times".</div>`},
+  {t:"Structured logic & pseudocode", b:`
+<p>Before coding, good engineers write the steps in plain English. This is called <b>pseudocode</b>.</p>
+<pre><code>Problem: Find the highest score in a class
+
+1. Set highest = first score
+2. For each score in the list:
+3.     If score > highest:
+4.         highest = score
+5. Show highest</code></pre>
+<p>Then turn it into Python:</p>
+<pre><code>scores = [56, 89, 72, 95, 61]
+highest = scores[0]
+for s in scores:
+    if s > highest:
+        highest = s
+print("Highest:", highest)</code></pre>
+<div class="callout tip"><b>Habit to build</b>Always write the steps first. Most "coding problems" are actually "unclear thinking problems".</div>`}
+ ],
+ videos:[
+  {u:yt("F0WoVEr0-44"), t:"Harvard CS50 Lecture 0: Computational Thinking & Scratch", s:"David Malan · 1h 10m · The best intro to binary, algorithms & how computers think", tag:"Must watch"},
+  {u:yt("rfscVS0vtbw"), t:"Learn Python: Full Course for Beginners (first 1 hour)", s:"freeCodeCamp · Watch only up to 'If Statements' for now", tag:"Code along"},
+  {u:ys("binary numbers explained simply for beginners"), t:"Search: Binary explained simply", s:"Pick a 5–10 minute video if binary still feels confusing", search:true}
+ ],
+ quiz:[
+  {q:"How would a computer store the colour of one pixel?", o:["As a word like 'red'","As 3 numbers (Red, Green, Blue)","As a sound","It can't"], a:1, e:"Each pixel is stored as RGB numbers. AI image models read these numbers."},
+  {q:"Python is an interpreted language. What does that mean?", o:["It runs line by line","It only works offline","It must be fully translated before running","It is only for AI"], a:0, e:"An interpreter translates and runs code line by line, which is why Colab can run one cell at a time."},
+  {q:"What will this print?  x = 10;  if x > 5: print('big') else: print('small')", o:["small","big","10","error"], a:1, e:"10 is greater than 5, so the 'if' branch runs."},
+  {q:"Which loop is best for 'do this for every item in a list'?", o:["while loop","for loop","if statement","variable"], a:1, e:"A for loop goes through each item one by one."}
+ ],
+ task:{t:"Build a tiny grade calculator", steps:["Open a new Colab notebook called 'Module 1'.","Create a list of 5 test scores.","Write pseudocode first: calculate the average and find the highest.","Turn it into Python using a for loop.","Add an if/elif/else that prints a grade: A (70+), B (60–69), C (50–59), F (below 50).","Bonus: ask an AI to review your code and explain one improvement."]},
+ terms:[["Bit / Byte","A single 0 or 1 / a group of 8 bits"],["Variable","A labelled box that stores a value"],["String","Text, written in quotes"],["Boolean","True or False"],["Loop","Code that repeats"],["Condition","An if-check that decides what runs"],["Pseudocode","Plain-English steps before real code"],["Interpreter","Runs code line by line"]]
+},
+
+/* ===== MODULE 2 ===== */
+{
+ id:"m2", short:"Python for AI", title:"Module 2: Python for AI",
+ weeks:"Weeks 2–4 · ~20 hours",
+ intro:"Python is the language of AI. You'll learn data types, functions, object-oriented programming (OOP), organising code into modules, running tasks at the same time (threading) and using AI to write code faster.",
+ eli5:"If Module 1 taught you the alphabet, this module teaches you to write full sentences and paragraphs in Python.",
+ lessons:[
+  {t:"Data types & collections", b:`
+<p>Besides strings, numbers and booleans, Python has 4 "containers" you'll use every day in AI:</p>
+<pre><code>fruits = ["mango", "apple", "mango"]        <span class="c"># LIST: ordered, changeable</span>
+point = (6.5, 3.4)                          <span class="c"># TUPLE: ordered, can't change</span>
+unique = {"mango", "apple"}                 <span class="c"># SET: no duplicates</span>
+person = {"name": "Ada", "age": 25}         <span class="c"># DICTIONARY: key → value</span>
+
+print(fruits[0])        <span class="c"># mango (counting starts at 0!)</span>
+print(person["name"])   <span class="c"># Ada</span>
+fruits.append("kiwi")   <span class="c"># add to list</span></code></pre>
+<div class="callout real"><b>In AI</b>A dataset row is often a dictionary: <code>{"text": "I love this!", "label": "positive"}</code>. API responses from ChatGPT/Claude come back as dictionaries too.</div>`},
+  {t:"Functions: reusable mini-programs", b:`
+<p>A <b>function</b> packages steps so you can reuse them. You give it inputs, it gives back an output.</p>
+<pre><code>def naira_to_dollars(naira, rate=1500):
+    return naira / rate
+
+print(naira_to_dollars(30000))        <span class="c"># 20.0</span>
+print(naira_to_dollars(30000, 1600))  <span class="c"># 18.75</span></code></pre>
+<ul><li><code>def</code> = define a function</li><li>Things in brackets = <b>parameters</b> (inputs)</li><li><code>return</code> = the output</li><li><code>rate=1500</code> = a default value if you don't give one</li></ul>`},
+  {t:"Object-Oriented Programming (OOP)", b:`
+<p>OOP lets you create your own "types" of things. A <b>class</b> is a blueprint; an <b>object</b> is something built from it.</p>
+<div class="callout eli5"><b>Simple version</b>A class is like a Figma component. An object is an instance of it. Each instance has its own properties (text, colour) but shares the same structure.</div>
+<pre><code>class Student:
+    def __init__(self, name, scores):   <span class="c"># runs when you create one</span>
+        self.name = name
+        self.scores = scores
+
+    def average(self):                   <span class="c"># a "method"</span>
+        return sum(self.scores) / len(self.scores)
+
+ada = Student("Ada", [80, 90, 70])
+print(ada.name, ada.average())   <span class="c"># Ada 80.0</span></code></pre>
+<p>Four big OOP ideas (just know the names for now):</p>
+<ul><li><b>Encapsulation</b>: keep data + actions together</li><li><b>Inheritance</b>: a child class reuses a parent's features</li><li><b>Polymorphism</b>: same method name, different behaviour</li><li><b>Abstraction</b>: hide complex details behind simple methods</li></ul>
+<div class="callout real"><b>In AI</b>In PyTorch (Module 5) every neural network is a class you write. So OOP is essential.</div>`},
+  {t:"Modules, packages & pip", b:`
+<p>You don't write everything from scratch. You <b>import</b> code others wrote.</p>
+<pre><code>import math
+print(math.sqrt(16))         <span class="c"># 4.0</span>
+
+import random
+print(random.choice(["rock", "paper", "scissors"]))
+
+<span class="c"># Install new packages in Colab with ! in front</span>
+!pip install emoji
+import emoji
+print(emoji.emojize("Python is :fire:"))</code></pre>
+<p><b>Modular coding</b> means splitting your project into files (e.g. <code>data.py</code>, <code>model.py</code>, <code>app.py</code>) so it stays organised. The AI libraries you'll use: <code>numpy</code>, <code>pandas</code>, <code>scikit-learn</code>, <code>torch</code>, <code>openai</code>, <code>langchain</code>.</p>`},
+  {t:"Errors & debugging", b:`
+<p>Errors are normal. Every programmer sees them all day. Learn to read them:</p>
+<pre><code>print(age)
+<span class="c"># NameError: name 'age' is not defined   → you never created 'age'</span>
+
+"5" + 5
+<span class="c"># TypeError: can only concatenate str...  → mixing text and number</span></code></pre>
+<p>Handle expected errors with <code>try/except</code>:</p>
+<pre><code>try:
+    num = int(input("Enter a number: "))
+except ValueError:
+    print("That's not a number!")</code></pre>
+<div class="callout tip"><b>Debugging recipe</b>1) Read the LAST line of the error. 2) Check the line number. 3) Add <code>print()</code> to see values. 4) Paste the error into an AI and ask "what does this mean?"</div>`},
+  {t:"Threading & multithreading (doing things at once)", b:`
+<p>Normally Python does one thing at a time. <b>Threading</b> lets your program wait for several slow things <i>at the same time</i>, like downloading 10 files or calling an AI API 10 times.</p>
+<div class="callout eli5"><b>Simple version</b>One waiter serving tables one by one vs. a waiter who takes all orders, then serves while the kitchen cooks. Same waiter, less waiting.</div>
+<pre><code>import threading, time
+
+def download(n):
+    time.sleep(2)               <span class="c"># pretend this is slow</span>
+    print("finished file", n)
+
+threads = [threading.Thread(target=download, args=(i,)) for i in range(5)]
+for t in threads: t.start()
+for t in threads: t.join()      <span class="c"># wait for all</span>
+<span class="c"># Takes ~2 seconds instead of 10!</span></code></pre>
+<p>Use threading for <b>waiting tasks</b> (internet, files). For heavy maths, AI libraries already use your hardware efficiently.</p>`},
+  {t:"Using GenAI to write Python faster", b:`
+<p>Real engineers use AI assistants (GitHub Copilot, Claude, ChatGPT) daily. Use them as a <b>tutor and pair programmer</b>, not a replacement for thinking.</p>
+<p><b>Great prompts:</b></p>
+<ul>
+<li>"Explain this code line by line like I'm a beginner: [code]"</li>
+<li>"I got this error: [error]. What causes it and how do I fix it?"</li>
+<li>"Write a Python function that ___. Add comments to every line."</li>
+<li>"Review my code. What would a senior engineer improve?"</li>
+</ul>
+<div class="callout warn"><b>Rule</b>Never paste code you don't understand. Ask the AI to explain it until you could explain it to someone else.</div>
+<p>Colab also has a built-in AI helper (look for the ✨ / Gemini button in each cell).</p>`}
+ ],
+ videos:[
+  {u:yt("rfscVS0vtbw"), t:"Learn Python: Full Course for Beginners", s:"freeCodeCamp · 4.5 hrs · Code along with every section (split over 2 weeks)", tag:"Main course"},
+  {u:ys("Corey Schafer python OOP tutorial classes and instances"), t:"Search: Corey Schafer OOP series", s:"Short, crystal-clear videos on classes, inheritance etc.", search:true},
+  {u:ys("Corey Schafer python threading tutorial"), t:"Search: Python threading (Corey Schafer)", s:"Run code concurrently with the threading module", search:true},
+  {u:ys("GitHub Copilot beginners tutorial python"), t:"Search: GitHub Copilot for beginners", s:"See how pros use AI to write Python", search:true}
+ ],
+ quiz:[
+  {q:"Which container stores key → value pairs?", o:["List","Tuple","Dictionary","Set"], a:2, e:"Dictionaries map keys to values, e.g. {'name': 'Ada'}."},
+  {q:"fruits = ['a','b','c']. What is fruits[1]?", o:["'a'","'b'","'c'","error"], a:1, e:"Python counts from 0, so index 1 is the second item."},
+  {q:"In OOP, a class is to an object what a ___ is to a ___.", o:["Blueprint → house","House → blueprint","Loop → list","Error → fix"], a:0, e:"A class is the blueprint; objects are the things built from it."},
+  {q:"When is threading most useful?", o:["Heavy maths","Waiting on slow tasks like downloads or API calls","Writing comments","Never"], a:1, e:"Threading shines when your program spends time waiting on the internet or files."},
+  {q:"What does 'return' do in a function?", o:["Prints text","Sends a result back to whoever called it","Repeats the function","Deletes it"], a:1, e:"return gives the output of the function back to the caller."}
+ ],
+ task:{t:"Build a Student Report Card program", steps:["Create a Student class with name and a dictionary of subject → score.","Add methods: average(), best_subject(), grade().","Create 3 students and print a neat report for each.","Wrap risky code (e.g. dividing by zero if there are no scores) with try/except.","Ask an AI to review your code; apply one suggestion and note what you learned.","Upload the notebook to GitHub (File → Save a copy in GitHub in Colab)."]},
+ terms:[["List","Ordered, changeable collection [ ]"],["Dictionary","Key-value pairs { }"],["Function","Reusable block of code with inputs and output"],["Class","Blueprint for creating objects"],["Object","A thing made from a class"],["Method","A function that belongs to a class"],["Inheritance","Child class reuses parent class features"],["Module / Package","Code you can import"],["pip","Tool to install Python packages"],["Thread","A separate line of work running at the same time"]]
+},
+
+/* ===== MODULE 3 ===== */
+{
+ id:"m3", short:"Data Science", title:"Module 3: Applied Data Science with Python",
+ weeks:"Weeks 5–7 · ~20 hours",
+ intro:"Load, clean, explore and visualise data with NumPy, pandas, Matplotlib and Seaborn. 80% of real AI work is preparing data, so this module is huge.",
+ eli5:"Data science is being a detective with spreadsheets, except instead of clicking around in Excel, you give Python instructions and it handles millions of rows in seconds.",
+ lessons:[
+  {t:"The data science workflow", b:`
+<p>Every data project follows roughly these steps:</p>
+<ol>
+<li><b>Ask</b> a question ("Which products sell most in December?")</li>
+<li><b>Collect</b> data (CSV files, databases, APIs)</li>
+<li><b>Clean</b> it (fix missing values, wrong types, duplicates)</li>
+<li><b>Explore</b> (summaries, charts) — called <b>EDA</b>, Exploratory Data Analysis</li>
+<li><b>Model</b> (use ML to predict, next module)</li>
+<li><b>Communicate</b> (charts, dashboards, stories)</li>
+</ol>
+<div class="callout tip"><b>Your edge</b>Step 6 is where most engineers are weak. Your visual storytelling skills make your analysis stand out.</div>`},
+  {t:"NumPy: fast maths on lots of numbers", b:`
+<p><b>NumPy</b> stores numbers in <b>arrays</b> and does maths on all of them at once, very fast.</p>
+<pre><code>import numpy as np
+
+prices = np.array([1200, 3500, 800, 2500])
+print(prices * 1.075)     <span class="c"># add 7.5% VAT to ALL at once</span>
+print(prices.mean())      <span class="c"># average</span>
+print(prices.max())       <span class="c"># highest</span>
+
+grid = np.array([[1, 2], [3, 4]])   <span class="c"># 2D array = a matrix</span>
+print(grid.shape)                    <span class="c"># (2, 2)</span></code></pre>
+<div class="callout real"><b>In AI</b>An image is a NumPy array (height × width × 3 colours). Neural networks are just lots of array maths.</div>`},
+  {t:"pandas: Excel superpowers in Python", b:`
+<p><b>pandas</b> works with tables called <b>DataFrames</b>: rows and columns, like a spreadsheet.</p>
+<pre><code>import pandas as pd
+
+url = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv"
+df = pd.read_csv(url)
+
+df.head()              <span class="c"># first 5 rows</span>
+df.info()              <span class="c"># columns & data types</span>
+df.describe()          <span class="c"># quick statistics</span>
+
+df["tip"].mean()                        <span class="c"># average tip</span>
+df[df["day"] == "Sun"]                  <span class="c"># filter: only Sundays</span>
+df.groupby("day")["total_bill"].mean()  <span class="c"># average bill per day</span>
+df.sort_values("tip", ascending=False)  <span class="c"># biggest tips first</span></code></pre>
+<p>Paste that into Colab. It loads a real restaurant dataset.</p>`},
+  {t:"Cleaning messy data", b:`
+<p>Real data is messy. Common fixes:</p>
+<pre><code>df.isnull().sum()                    <span class="c"># count missing values per column</span>
+df = df.dropna()                     <span class="c"># remove rows with missing values</span>
+df["age"] = df["age"].fillna(df["age"].median())  <span class="c"># or fill them</span>
+df = df.drop_duplicates()            <span class="c"># remove repeated rows</span>
+df["price"] = df["price"].astype(float)          <span class="c"># fix data type</span>
+df["city"] = df["city"].str.strip().str.title()  <span class="c"># " lagos " → "Lagos"</span></code></pre>
+<div class="callout eli5"><b>Garbage in, garbage out</b>If you feed an AI messy data, you get a confused AI. Cleaning is not boring busywork. It decides whether your model works.</div>`},
+  {t:"Visualising data (Matplotlib & Seaborn)", b:`
+<pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.histplot(df["total_bill"])              <span class="c"># distribution</span>
+plt.show()
+
+sns.barplot(data=df, x="day", y="tip")      <span class="c"># compare groups</span>
+plt.show()
+
+sns.scatterplot(data=df, x="total_bill", y="tip", hue="time")  <span class="c"># relationship</span>
+plt.show()</code></pre>
+<p><b>Which chart when?</b></p>
+<ul><li><b>Histogram</b>: how values are spread</li><li><b>Bar</b>: compare categories</li><li><b>Line</b>: change over time</li><li><b>Scatter</b>: relationship between two numbers</li><li><b>Heatmap</b>: correlations between many columns</li></ul>`},
+  {t:"Basic statistics you actually need", b:`
+<ul>
+<li><b>Mean</b>: average. <b>Median</b>: middle value (better when there are extreme values, like salaries).</li>
+<li><b>Standard deviation</b>: how spread out values are.</li>
+<li><b>Correlation</b> (-1 to 1): do two things move together? <code>df.corr(numeric_only=True)</code></li>
+<li><b>Outliers</b>: unusual values that can mislead your analysis.</li>
+</ul>
+<div class="callout warn"><b>Classic trap</b>Correlation is not causation. Ice cream sales and drowning both rise in summer. Ice cream doesn't cause drowning; heat causes both.</div>`}
+ ],
+ videos:[
+  {u:yt("r-uOLxNrNk8"), t:"Data Analysis with Python: Full Course (NumPy, Pandas, Matplotlib, Seaborn)", s:"freeCodeCamp · 4.4 hrs · Main course for this module", tag:"Main course"},
+  {u:ys("Keith Galli complete python pandas data science tutorial"), t:"Search: Keith Galli pandas tutorial", s:"Very beginner-friendly, real-world style", search:true},
+  {u:"https://www.kaggle.com/learn/pandas", t:"Kaggle Learn: Pandas (free interactive course)", s:"Short exercises right in your browser, with free certificate", tag:"Practice"},
+  {u:"https://www.kaggle.com/learn/data-visualization", t:"Kaggle Learn: Data Visualization", s:"Seaborn hands-on exercises", tag:"Practice"}
+ ],
+ quiz:[
+  {q:"What is a pandas DataFrame?", o:["A chart","A table of rows and columns","A neural network","A loop"], a:1, e:"A DataFrame is pandas' table, like a spreadsheet in code."},
+  {q:"Which chart best shows sales over 12 months?", o:["Pie chart","Line chart","Histogram","Scatter"], a:1, e:"Line charts show change over time."},
+  {q:"df.isnull().sum() tells you…", o:["Total of all numbers","How many missing values each column has","Number of columns","The average"], a:1, e:"It counts missing (null) values per column."},
+  {q:"Salaries: 50k, 55k, 60k, 5,000k. Which describes a 'typical' salary better?", o:["Mean","Median"], a:1, e:"The median ignores the extreme 5,000k outlier; the mean gets pulled up by it."},
+  {q:"What does EDA stand for?", o:["Easy Data Analysis","Exploratory Data Analysis","Error Detection Algorithm","Extra Data Added"], a:1, e:"Exploratory Data Analysis: understanding your data before modelling."}
+ ],
+ task:{t:"Mini-project: Analyse a real dataset", steps:["Pick a dataset on Kaggle that interests you (e.g. Netflix titles, Spotify songs, or Nigerian house prices).","Load it in Colab with pandas; run head(), info(), describe().","Clean it: handle missing values and duplicates.","Ask and answer 5 questions with code (e.g. 'Which genre is most common?').","Make at least 4 charts, and style them well (titles, labels, colours).","Write a 5-sentence 'insights' summary at the end. Save to GitHub."]},
+ terms:[["NumPy","Library for fast number arrays"],["Array","A grid of numbers"],["pandas","Library for tables (DataFrames)"],["DataFrame","A table in pandas"],["EDA","Exploring data to understand it"],["Missing values","Empty cells (NaN)"],["Outlier","An unusually extreme value"],["Correlation","How two variables move together"],["CSV","Simple text file storing a table"]]
+},
+
+/* ===== MODULE 4 ===== */
+{
+ id:"m4", short:"Machine Learning", title:"Module 4: Machine Learning using Python",
+ weeks:"Weeks 8–11 · ~30 hours",
+ intro:"Teach computers to learn patterns from data instead of writing every rule by hand. You'll learn supervised and unsupervised learning, regression, classification, clustering, how to evaluate models and use scikit-learn.",
+ eli5:"Normal programming: you write the rules. Machine learning: you show the computer thousands of examples and it figures out the rules itself, like a child learning what a 'dog' is from seeing many dogs.",
+ lessons:[
+  {t:"What machine learning really is", b:`
+<p>Traditional code: <b>Rules + Data → Answers</b>.<br>Machine learning: <b>Data + Answers → Rules</b> (the "model").</p>
+<div class="callout real"><b>Example</b>Spam filter. Instead of writing 1,000 rules ("if email has 'FREE MONEY'…"), you give the model 50,000 emails labelled spam/not-spam. It learns the patterns itself.</div>
+<p><b>Three main types:</b></p>
+<ul>
+<li><b>Supervised learning</b>: learn from labelled examples (email → spam?). Most common.</li>
+<li><b>Unsupervised learning</b>: find hidden groups in unlabelled data (group customers by behaviour).</li>
+<li><b>Reinforcement learning</b>: learn by trial and reward (game-playing AI, robots).</li>
+</ul>`},
+  {t:"Key vocabulary: features, labels, training", b:`
+<ul>
+<li><b>Features (X)</b>: the inputs/clues. For a house: size, bedrooms, location.</li>
+<li><b>Label / target (y)</b>: what you want to predict. The price.</li>
+<li><b>Training</b>: the model studies examples to learn the pattern.</li>
+<li><b>Prediction / inference</b>: using the trained model on new data.</li>
+</ul>
+<p>Two kinds of supervised problems:</p>
+<ul>
+<li><b>Regression</b>: predict a <i>number</i> (house price, sales next month).</li>
+<li><b>Classification</b>: predict a <i>category</i> (spam/not spam, loan default yes/no, which disease).</li>
+</ul>`},
+  {t:"Train/test split: don't let the model cheat", b:`
+<p>If you test a student with the exact questions they practised, a high score proves nothing. Same with models.</p>
+<p>So we split data: ~80% to <b>train</b>, ~20% to <b>test</b> on unseen examples.</p>
+<pre><code>from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)</code></pre>
+<ul>
+<li><b>Overfitting</b>: model memorised the training data. Great in practice, fails the real exam.</li>
+<li><b>Underfitting</b>: model is too simple to learn the pattern at all.</li>
+<li><b>Cross-validation</b>: test on several different splits for a more reliable score.</li>
+</ul>`},
+  {t:"The core algorithms (plain English)", b:`
+<table>
+<tr><th>Algorithm</th><th>Idea</th><th>Use for</th></tr>
+<tr><td><b>Linear Regression</b></td><td>Draw the best straight line through the points</td><td>Predict numbers</td></tr>
+<tr><td><b>Logistic Regression</b></td><td>Estimate probability of yes/no</td><td>Yes/no classification</td></tr>
+<tr><td><b>Decision Tree</b></td><td>A flowchart of yes/no questions</td><td>Both; easy to explain</td></tr>
+<tr><td><b>Random Forest</b></td><td>Many trees vote together</td><td>Strong all-rounder</td></tr>
+<tr><td><b>K-Nearest Neighbours</b></td><td>"You're like your closest neighbours"</td><td>Simple classification</td></tr>
+<tr><td><b>XGBoost / Gradient Boosting</b></td><td>Trees that fix each other's mistakes</td><td>Top performer on tables</td></tr>
+<tr><td><b>K-Means</b></td><td>Group points into K clusters</td><td>Unsupervised grouping</td></tr>
+</table>`},
+  {t:"Your first model with scikit-learn", b:`
+<p>Every scikit-learn model follows the same 4 steps: <b>import → create → fit → predict</b>.</p>
+<pre><code>from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+X, y = load_iris(return_X_y=True)          <span class="c"># flower measurements → species</span>
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+model = RandomForestClassifier()           <span class="c"># 1. create</span>
+model.fit(X_train, y_train)                <span class="c"># 2. learn</span>
+preds = model.predict(X_test)              <span class="c"># 3. predict</span>
+print("Accuracy:", accuracy_score(y_test, preds))   <span class="c"># 4. evaluate</span></code></pre>
+<p>Swap <code>RandomForestClassifier</code> for <code>LogisticRegression</code> or <code>DecisionTreeClassifier</code> and compare. Same code shape!</p>`},
+  {t:"How to judge a model (metrics)", b:`
+<p><b>For classification:</b></p>
+<ul>
+<li><b>Accuracy</b>: % correct. Misleading if classes are imbalanced (if 99% of emails aren't spam, guessing "not spam" always = 99% accuracy!).</li>
+<li><b>Precision</b>: when it says "spam", how often is it right?</li>
+<li><b>Recall</b>: of all real spam, how much did it catch?</li>
+<li><b>Confusion matrix</b>: a table of right vs wrong guesses.</li>
+</ul>
+<p><b>For regression:</b> <b>MAE</b> (average error size), <b>RMSE</b> (punishes big errors), <b>R²</b> (how much of the pattern it explains, 1 = perfect).</p>
+<div class="callout real"><b>Real stakes</b>For a cancer test, recall matters most. Missing a sick patient is worse than a false alarm.</div>`},
+  {t:"Feature engineering & preprocessing", b:`
+<p>Models only understand numbers, and they learn better from well-prepared features.</p>
+<ul>
+<li><b>Encoding</b>: turn categories to numbers (<code>pd.get_dummies(df["city"])</code>).</li>
+<li><b>Scaling</b>: put numbers on similar ranges (<code>StandardScaler</code>), so "salary" doesn't overpower "age".</li>
+<li><b>New features</b>: create helpful columns, e.g. "price per square metre", "day of week".</li>
+<li><b>Pipelines</b>: chain preprocessing + model so it's repeatable.</li>
+</ul>
+<p>Good features often matter more than a fancy algorithm.</p>`}
+ ],
+ videos:[
+  {u:ys("StatQuest A Gentle Introduction to Machine Learning"), t:"Search: StatQuest – Gentle Intro to ML (+ playlist)", s:"Josh Starmer · Short, funny, clearest concept explanations on YouTube", search:true},
+  {u:yt("pqNCD_5r0IU"), t:"Scikit-Learn Course: Machine Learning in Python", s:"freeCodeCamp · ~3 hrs · Hands-on main course", tag:"Main course"},
+  {u:yt("hDKCxebp88A"), t:"Machine Learning with Python and Scikit-Learn: Full Course", s:"freeCodeCamp/Jovian · 18 hrs · Deep dive with projects (use as reference)", tag:"Go deeper"},
+  {u:"https://www.kaggle.com/learn/intro-to-machine-learning", t:"Kaggle Learn: Intro to Machine Learning", s:"Free interactive exercises + certificate", tag:"Practice"}
+ ],
+ quiz:[
+  {q:"Predicting tomorrow's temperature (e.g. 31.5°C) is…", o:["Classification","Regression","Clustering","Reinforcement"], a:1, e:"Predicting a number = regression."},
+  {q:"Grouping customers into segments without labels is…", o:["Supervised","Unsupervised","Regression","Testing"], a:1, e:"No labels → unsupervised learning (e.g. K-Means)."},
+  {q:"A model scores 99% on training data but 60% on test data. This is…", o:["Underfitting","Overfitting","Perfect","Scaling"], a:1, e:"It memorised training data and can't generalise. That's overfitting."},
+  {q:"The 4 scikit-learn steps are…", o:["import, create, fit, predict","draw, paint, export, share","loop, if, else, end","train, cook, serve, eat"], a:0, e:"Import the model, create it, fit (train) it, then predict."},
+  {q:"For a disease-screening test, which metric matters most?", o:["Accuracy","Recall","Speed","Colour"], a:1, e:"Recall measures how many real cases you catch. Missing sick patients is dangerous."}
+ ],
+ task:{t:"Project: Loan Default Predictor (like the paid course!)", steps:["Search Kaggle for a 'loan default' or 'credit risk' dataset.","Do quick EDA: what % of loans default? Which features look important?","Clean data, encode categories, split train/test.","Train 3 models: Logistic Regression, Decision Tree, Random Forest.","Compare accuracy, precision and recall. Which would a bank prefer, and why?","Plot feature importance from the Random Forest.","Write a README on GitHub explaining the problem, approach, and results in simple words."]},
+ terms:[["Model","The learned pattern used to make predictions"],["Features (X)","Input columns / clues"],["Label (y)","What you're predicting"],["Training","Model learning from examples"],["Regression","Predicting a number"],["Classification","Predicting a category"],["Overfitting","Memorising instead of learning"],["Accuracy","% of correct predictions"],["Precision / Recall","Correctness of positives / how many positives caught"],["Scikit-learn","The main Python ML library"]]
+},
+
+/* ===== MODULE 5 ===== */
+{
+ id:"m5", short:"Deep Learning", title:"Module 5: Deep Learning Specialization",
+ weeks:"Weeks 12–15 · ~30 hours",
+ intro:"Neural networks power image recognition, speech, ChatGPT and more. Learn how they work (forward and backward propagation), how to train them well (hyperparameters, dropout, early stopping), CNNs for images, RNNs for sequences, and build them with PyTorch.",
+ eli5:"A neural network is a huge team of tiny decision-makers. Each one is terrible alone, but in layers, passing notes to each other and adjusting after every mistake, they become amazing at spotting patterns.",
+ lessons:[
+  {t:"Deep learning vs machine learning", b:`
+<ul>
+<li><b>Machine learning</b> (Module 4): works great on tables (rows/columns). Humans often hand-craft the features.</li>
+<li><b>Deep learning</b>: uses many-layered neural networks that learn features <i>themselves</i> from raw data: images, audio, text.</li>
+</ul>
+<div class="callout real"><b>Example</b>To recognise cats with classic ML, you'd hand-describe "pointy ears, whiskers". Deep learning just looks at 100,000 cat photos and discovers those features on its own.</div>
+<p>Deep learning needs <b>more data</b> and <b>more computing power</b> (GPUs), which is why Colab's free GPU is helpful.</p>`},
+  {t:"Neurons, layers & activation", b:`
+<p>A single <b>neuron</b> does three things:</p>
+<ol><li>Takes inputs (numbers)</li><li>Multiplies each by a <b>weight</b> (how important it is) and adds a <b>bias</b></li><li>Passes the total through an <b>activation function</b> (decides how strongly to "fire")</li></ol>
+<p>Neurons are stacked in <b>layers</b>:</p>
+<ul><li><b>Input layer</b>: the raw data (e.g. 784 pixels)</li><li><b>Hidden layers</b>: where patterns are found (edges → shapes → objects)</li><li><b>Output layer</b>: the answer (e.g. "it's a 7")</li></ul>
+<p>"Deep" just means many hidden layers. Common activations: <b>ReLU</b> (hidden layers), <b>Sigmoid</b> (yes/no output), <b>Softmax</b> (pick one of many classes).</p>`},
+  {t:"How networks learn: forward & backward propagation", b:`
+<p>Training is a 4-step loop, repeated thousands of times:</p>
+<ol>
+<li><b>Forward propagation</b>: data flows through the network → it makes a guess.</li>
+<li><b>Loss</b>: measure how wrong the guess was (a single "error score").</li>
+<li><b>Backward propagation (backprop)</b>: work backwards to find how much each weight caused the error.</li>
+<li><b>Gradient descent</b>: nudge every weight slightly in the direction that reduces error.</li>
+</ol>
+<div class="callout eli5"><b>Gradient descent, simply</b>You're on a foggy hill and want to reach the bottom. You can't see far, so you feel the slope under your feet and take a small step downhill. Repeat. The "learning rate" is your step size. Too big and you overshoot; too small and it takes forever.</div>
+<p>One pass through all the training data = one <b>epoch</b>.</p>`},
+  {t:"Training well: hyperparameters, dropout, early stopping", b:`
+<p><b>Hyperparameters</b> are settings <i>you</i> choose (the model doesn't learn them):</p>
+<ul><li>Learning rate · number of layers / neurons · batch size · number of epochs</li></ul>
+<p><b>Hyperparameter tuning</b> = trying combinations to find the best.</p>
+<p>Tools to fight <b>overfitting</b>:</p>
+<ul>
+<li><b>Dropout</b>: randomly switch off some neurons during training, so the network can't rely on any single one. Like training a football team where random players sit out each practice. Everyone gets better.</li>
+<li><b>Early stopping</b>: watch the test (validation) error; stop training when it starts getting worse.</li>
+<li><b>More data / data augmentation</b>: flip, rotate, crop images to create variety.</li>
+</ul>
+<p><b>Model interpretability</b>: tools that show <i>why</i> a model decided something (e.g. which pixels it looked at). Important for trust in health, finance, etc.</p>`},
+  {t:"CNNs: networks for images", b:`
+<p><b>Convolutional Neural Networks (CNNs)</b> scan images with small <b>filters</b> (like a 3×3 magnifying glass sliding over the picture).</p>
+<ul>
+<li>Early layers detect <b>edges and colours</b></li>
+<li>Middle layers detect <b>shapes and textures</b></li>
+<li>Deep layers detect <b>objects</b> (eyes, wheels, faces)</li>
+</ul>
+<p><b>Pooling</b> shrinks the image to keep only the important parts.</p>
+<p><b>Object detection</b> goes further: not just "there's a car" but drawing a box around <i>each</i> car (models like YOLO). Used in self-driving cars, security cameras, medical scans.</p>
+<div class="callout tip"><b>Transfer learning</b>You rarely train from scratch. Take a model already trained on millions of images (e.g. ResNet) and fine-tune it on your small dataset. Faster and better.</div>`},
+  {t:"RNNs: networks for sequences", b:`
+<p><b>Recurrent Neural Networks (RNNs)</b> handle data where <b>order matters</b>: sentences, speech, stock prices, sensor readings.</p>
+<p>They have "memory": each step passes information to the next.</p>
+<ul><li><b>LSTM</b> and <b>GRU</b>: improved RNNs with better long-term memory.</li></ul>
+<p>Today, <b>Transformers</b> (Module 8) have replaced RNNs for most language tasks, but RNNs are still taught because they explain the idea of sequence memory.</p>`},
+  {t:"PyTorch foundations", b:`
+<p><b>PyTorch</b> is the most popular deep learning library. Core idea: <b>tensors</b> (NumPy arrays that can run on GPUs).</p>
+<pre><code>import torch
+import torch.nn as nn
+
+<span class="c"># 1. Define the network (a class! OOP from Module 2)</span>
+class SimpleNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(4, 16), nn.ReLU(),
+            nn.Dropout(0.2),
+            nn.Linear(16, 3)
+        )
+    def forward(self, x):
+        return self.layers(x)
+
+model = SimpleNet()
+loss_fn = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+
+<span class="c"># 2. The training loop</span>
+for epoch in range(100):
+    preds = model(X_train)            <span class="c"># forward</span>
+    loss = loss_fn(preds, y_train)    <span class="c"># how wrong?</span>
+    optimizer.zero_grad()
+    loss.backward()                   <span class="c"># backprop</span>
+    optimizer.step()                  <span class="c"># update weights</span></code></pre>
+<p>Don't worry about memorising this. Notice the 4 steps from the "How networks learn" lesson appear directly in the code.</p>
+<p>(TensorFlow/Keras is the other big library. The concepts are identical.)</p>`}
+ ],
+ videos:[
+  {u:yt("aircAruvnKk"), t:"But what is a neural network? (Deep Learning Ch. 1)", s:"3Blue1Brown · 19 min · The most beautiful visual explanation that exists", tag:"Must watch"},
+  {u:ys("3Blue1Brown gradient descent how neural networks learn"), t:"Search: 3Blue1Brown Ch. 2–4 (gradient descent & backpropagation)", s:"Continue the series. Watch all 4 chapters", search:true},
+  {u:ys("StatQuest neural networks backpropagation main ideas"), t:"Search: StatQuest Neural Networks playlist", s:"Step-by-step backprop with simple numbers", search:true},
+  {u:yt("V_xro1bcAuA"), t:"PyTorch for Deep Learning & Machine Learning: Full Course", s:"freeCodeCamp / Daniel Bourke · 25 hrs · Use chapters 0–3 (fundamentals, workflow, classification, CNNs)", tag:"Main course"},
+  {u:"https://www.learnpytorch.io", t:"learnpytorch.io: free online book for the course above", s:"Read alongside the video", tag:"Notes"}
+ ],
+ quiz:[
+  {q:"What does backpropagation do?", o:["Makes the first guess","Figures out how much each weight contributed to the error","Loads data","Draws charts"], a:1, e:"Backprop works backwards from the error to compute how to adjust each weight."},
+  {q:"Dropout is used to…", o:["Speed up the internet","Reduce overfitting by randomly switching off neurons","Delete data","Add more layers"], a:1, e:"Dropout forces the network to not depend on any single neuron."},
+  {q:"Which network is designed for images?", o:["RNN","CNN","K-Means","Linear regression"], a:1, e:"CNNs use filters that scan across images."},
+  {q:"The learning rate controls…", o:["How big each weight-update step is","How many layers there are","The image size","The dataset size"], a:0, e:"It's the step size in gradient descent."},
+  {q:"Early stopping means…", o:["Quitting the course","Stopping training when validation error starts rising","Using fewer layers","Skipping backprop"], a:1, e:"It stops before the model starts overfitting."}
+ ],
+ task:{t:"Project: Image classifier with transfer learning", steps:["In Colab, enable GPU: Runtime → Change runtime type → GPU.","Follow learnpytorch.io notebooks 00–02 and run every cell yourself.","Pick an image dataset on Kaggle (e.g. tourist landmarks, Nigerian foods, or clothing).","Use a pre-trained model (ResNet or EfficientNet) and fine-tune it on your images.","Add dropout and early stopping; record accuracy before and after.","Show 10 test images with predicted vs true labels.","Push to GitHub with a clear README."]},
+ terms:[["Neural network","Layers of connected neurons that learn patterns"],["Weight / Bias","Numbers the network learns"],["Activation function","Decides how strongly a neuron fires (ReLU, Sigmoid)"],["Loss","A score for how wrong the prediction is"],["Backpropagation","Working out how to adjust each weight"],["Gradient descent","Stepping downhill to reduce loss"],["Epoch","One full pass over training data"],["Hyperparameter","A setting you choose (learning rate etc.)"],["CNN","Network for images"],["RNN / LSTM","Network for sequences"],["Tensor","PyTorch's array (can run on GPU)"],["Transfer learning","Reusing a pre-trained model"]]
+},
+
+/* ===== MODULE 6 ===== */
+{
+ id:"m6", short:"Azure AI Fundamentals", title:"Module 6: Microsoft Azure AI Fundamentals",
+ weeks:"Weeks 16–17 · ~15 hours",
+ intro:"Real AI apps run in the cloud. Learn cloud basics, Azure's ready-made AI services, cost management, governance, Responsible AI and prepare for the Microsoft Azure AI Fundamentals certification.",
+ eli5:"The cloud is renting someone else's super-computer by the minute. Azure is Microsoft's cloud. Instead of building every AI from scratch, you can call Azure's pre-built AI (read text, see images, translate, chat) like ordering from a menu.",
+ lessons:[
+  {t:"Cloud computing basics", b:`
+<p>The <b>cloud</b> = computers in huge data centres you rent over the internet. You pay for what you use.</p>
+<p><b>Three service types</b> (pizza analogy 🍕):</p>
+<ul>
+<li><b>IaaS</b> (Infrastructure): you rent the kitchen. You do the cooking. (Virtual machines)</li>
+<li><b>PaaS</b> (Platform): you get a kitchen + ingredients ready. You just assemble. (Azure App Service, Azure ML)</li>
+<li><b>SaaS</b> (Software): pizza delivered. You just eat. (Microsoft 365, Copilot)</li>
+</ul>
+<p><b>Azure components:</b> Regions (data centre locations) · Resource groups (folders for your services) · Subscriptions (billing account).</p>`},
+  {t:"Azure AI services (the menu)", b:`
+<table>
+<tr><th>Service</th><th>What it does</th><th>Example</th></tr>
+<tr><td><b>Azure AI Vision</b></td><td>Understand images</td><td>Read text in photos, tag objects</td></tr>
+<tr><td><b>Azure AI Language</b></td><td>Understand text</td><td>Sentiment, key phrases, summaries</td></tr>
+<tr><td><b>Azure AI Speech</b></td><td>Speech ↔ text</td><td>Transcribe calls, voice assistants</td></tr>
+<tr><td><b>Azure AI Translator</b></td><td>Translate</td><td>Multi-language apps</td></tr>
+<tr><td><b>Document Intelligence</b></td><td>Extract data from forms</td><td>Read invoices, receipts, IDs</td></tr>
+<tr><td><b>Azure OpenAI / AI Foundry models</b></td><td>Generative AI (GPT etc.)</td><td>Chatbots, content generation</td></tr>
+<tr><td><b>Azure Machine Learning</b></td><td>Build & train your own models</td><td>Custom ML pipelines</td></tr>
+<tr><td><b>Azure AI Search</b></td><td>Smart search over your data</td><td>Powers RAG (Module 8)</td></tr>
+</table>
+<p>Microsoft renames products often. If a name differs in a video, it's usually the same service, rebranded.</p>`},
+  {t:"Cost management & governance", b:`
+<ul>
+<li><b>Pricing calculator</b>: estimate cost before building.</li>
+<li><b>Budgets & alerts</b>: get emailed before you overspend. Always set one!</li>
+<li><b>Free tiers</b>: many AI services have a free monthly allowance.</li>
+<li><b>Tags</b>: label resources (e.g. project=capstone) to track costs.</li>
+<li><b>Governance</b>: Azure Policy (rules like "only use EU regions"), role-based access (who can do what).</li>
+<li><b>Compliance</b>: meeting laws like GDPR / NDPR (Nigeria) about data privacy.</li>
+</ul>
+<div class="callout warn"><b>Protect your wallet</b>When you try Azure for free, set a budget alert immediately, and delete resources when done practising.</div>`},
+  {t:"Responsible AI (6 principles)", b:`
+<p>Microsoft's 6 principles. These appear on the exam and matter in real life:</p>
+<ol>
+<li><b>Fairness</b>: don't discriminate (e.g. loan AI biased against a group).</li>
+<li><b>Reliability & safety</b>: works correctly, even in edge cases.</li>
+<li><b>Privacy & security</b>: protect personal data.</li>
+<li><b>Inclusiveness</b>: works for everyone, including people with disabilities.</li>
+<li><b>Transparency</b>: people understand how and why it decides.</li>
+<li><b>Accountability</b>: humans remain responsible.</li>
+</ol>
+<div class="callout tip"><b>Memory trick</b>"<b>F</b>air <b>R</b>obots <b>P</b>rotect <b>I</b>nclusive <b>T</b>ransparent <b>A</b>ccountants" → F-R-P-I-T-A.</div>`},
+  {t:"Exam prep strategy (free)", b:`
+<p>The paid course preps you for Microsoft's AI Fundamentals exam (listed as <b>AI-901</b>, the updated successor to the long-running <b>AI-900</b>; the core topics overlap heavily).</p>
+<ol>
+<li>Do the free official learning path on <a href="https://learn.microsoft.com/training/" target="_blank">Microsoft Learn</a> (search "AI fundamentals"). Check the exact exam code and current skills outline there.</li>
+<li>Watch the freeCodeCamp AI-900 course below for structured revision.</li>
+<li>Take Microsoft's free <b>practice assessment</b> (on the exam's Microsoft Learn page) until you score 80%+.</li>
+<li>Look out for <b>Microsoft Virtual Training Days / Skills challenges</b>. They sometimes give free or discounted exam vouchers.</li>
+</ol>
+<p>The certificate is optional. The knowledge is what matters, but a cert helps your CV.</p>`}
+ ],
+ videos:[
+  {u:yt("hHjmr_YOqnU"), t:"Azure AI Fundamentals (AI-900): Full Course to Pass the Exam", s:"freeCodeCamp / Andrew Brown · ~4 hrs · Most topics carry over to AI-901", tag:"Main course"},
+  {u:ys("AI-901 Azure AI Fundamentals exam"), t:"Search: AI-901 latest videos", s:"Newer exam, so check for updated walkthroughs", search:true},
+  {u:ys("John Savill Azure AI fundamentals"), t:"Search: John Savill's Azure explainers", s:"Excellent, clear Azure deep dives", search:true},
+  {u:"https://learn.microsoft.com/training/", t:"Microsoft Learn: free official training", s:"Search 'Azure AI fundamentals' for the official path + practice test", tag:"Official"}
+ ],
+ quiz:[
+  {q:"Microsoft 365 / Copilot is an example of…", o:["IaaS","PaaS","SaaS"], a:2, e:"Ready-to-use software delivered online = SaaS."},
+  {q:"Which Azure service would read totals from scanned invoices?", o:["Speech","Document Intelligence","Translator","Azure Policy"], a:1, e:"Document Intelligence extracts fields from forms and documents."},
+  {q:"A hiring AI rejects more women than men with equal skills. Which principle is broken?", o:["Transparency","Fairness","Reliability","Inclusiveness"], a:1, e:"Unequal treatment of groups = fairness problem."},
+  {q:"The first thing to do when you start a free Azure account?", o:["Create 10 GPUs","Set a budget alert","Delete it","Share your password"], a:1, e:"Budget alerts protect you from surprise bills."}
+ ],
+ task:{t:"Hands-on: Use Azure AI without code first", steps:["Complete the official Microsoft Learn AI fundamentals path (do the free sandbox exercises).","If you create an Azure free account, set a budget alert first.","Try Azure AI Language: analyse sentiment of 5 customer reviews.","Try Azure AI Vision: upload a photo and read its description and tags.","Write a one-page note: 'Which Azure AI service would I use for 5 real Nigerian business problems?' (e.g. reading POS receipts, translating to Yoruba/Hausa/Igbo).","Take the free practice assessment and record your score."]},
+ terms:[["Cloud","Renting computing power online"],["IaaS / PaaS / SaaS","Infrastructure / Platform / Software as a Service"],["Region","Location of Azure data centres"],["Resource group","A folder for related Azure resources"],["Azure AI services","Pre-built AI you call via API"],["Azure OpenAI","GPT-style models hosted on Azure"],["Governance","Rules and controls over cloud usage"],["Responsible AI","Building AI that's fair, safe and accountable"]]
+},
+
+/* ===== MODULE 7 ===== */
+{
+ id:"m7", short:"AI Agents & Copilot", title:"Module 7: Build AI Agents & Extend Microsoft 365 Copilot",
+ weeks:"Weeks 18–19 · ~15 hours",
+ intro:"Agents are AI that can take actions: look things up, use tools, fill forms, send emails. Learn agent fundamentals, Microsoft 365 Copilot's architecture, Copilot Studio (low-code), Azure AI Foundry (pro-code) and connectors.",
+ eli5:"A chatbot answers questions. An agent is a chatbot with hands. It can actually do things for you: book the meeting, check the stock, update the spreadsheet.",
+ lessons:[
+  {t:"What is an AI agent?", b:`
+<p>An <b>agent</b> = <b>LLM brain</b> + <b>instructions</b> + <b>knowledge</b> + <b>tools/actions</b> + <b>memory</b>.</p>
+<ul>
+<li><b>Brain (LLM)</b>: understands requests and decides what to do.</li>
+<li><b>Instructions</b>: its job description and rules ("You are an HR assistant. Be polite…").</li>
+<li><b>Knowledge</b>: documents/websites it can search (e.g. company policies).</li>
+<li><b>Tools/Actions</b>: things it can do (send email, query a database, call an API).</li>
+<li><b>Memory</b>: remembers the conversation and context.</li>
+</ul>
+<p>The agent loop: <b>Think → choose a tool → act → look at result → repeat</b> until the task is done.</p>
+<div class="callout real"><b>Example</b>"How many leave days do I have left? Book Friday off." The agent checks the HR policy (knowledge), looks up your balance (tool), submits the request (action), confirms to you.</div>`},
+  {t:"Microsoft 365 Copilot architecture", b:`
+<p>Microsoft 365 Copilot is an AI assistant inside Word, Excel, Outlook, Teams etc.</p>
+<p>How it works (simplified):</p>
+<ol>
+<li>You ask a question in Teams/Word.</li>
+<li>Copilot gathers context from <b>Microsoft Graph</b>, the map of your emails, files, meetings and chats (only what <i>you</i> have permission to see).</li>
+<li>It sends your prompt + that context to an LLM.</li>
+<li>It returns the answer, with safety and compliance checks.</li>
+</ol>
+<p><b>Extending Copilot</b> means teaching it new skills or data:</p>
+<ul>
+<li><b>Connectors</b>: bring outside data in (e.g. your company's Jira, a website, a database).</li>
+<li><b>Agents / plugins</b>: add new actions or specialised assistants.</li>
+</ul>`},
+  {t:"Low-code path: Copilot Studio", b:`
+<p><b>Copilot Studio</b> lets you build agents mostly by clicking and describing in plain English. Great for designers and business teams.</p>
+<p>Typical steps:</p>
+<ol>
+<li>Create agent → describe what it should do in plain language.</li>
+<li>Add <b>knowledge</b> (upload PDFs, link a website or SharePoint).</li>
+<li>Add <b>topics</b> (conversation flows for specific requests).</li>
+<li>Add <b>actions</b> (connect to Outlook, Excel, or 1000+ connectors via Power Automate).</li>
+<li>Test in the preview window, then <b>publish</b> to Teams, a website, etc.</li>
+</ol>
+<div class="callout tip"><b>Free access</b>Search "Copilot Studio trial" on Microsoft's site. Trials and developer programs change, so check what's currently free in your region.</div>`},
+  {t:"Pro-code path: Azure AI Foundry & SDKs", b:`
+<p><b>Azure AI Foundry</b> is Microsoft's developer platform to build, test and deploy AI apps and agents with code.</p>
+<ul>
+<li>Choose from many models (GPT, Llama, Mistral, etc.)</li>
+<li>Build agents with the <b>Agent Service</b> + Python/C# SDKs</li>
+<li>Add tools: code interpreter, file search, Bing search, your own functions</li>
+<li>Evaluate quality and safety before going live</li>
+</ul>
+<p><b>Low-code vs pro-code: when to use which?</b></p>
+<table>
+<tr><th></th><th>Copilot Studio (low-code)</th><th>AI Foundry (pro-code)</th></tr>
+<tr><td>Speed</td><td>Hours</td><td>Days–weeks</td></tr>
+<tr><td>Flexibility</td><td>Medium</td><td>Total control</td></tr>
+<tr><td>Who</td><td>Business users, designers</td><td>Developers</td></tr>
+<tr><td>Best for</td><td>Internal helpdesk, FAQ bots</td><td>Custom products, complex logic</td></tr>
+</table>`},
+  {t:"Agents in Python (the general idea)", b:`
+<p>Under the hood, most agents use <b>function calling</b>: you describe your tools to the LLM, it replies "call this tool with these inputs", your code runs it and sends back the result.</p>
+<pre><code><span class="c"># Pseudocode of an agent loop</span>
+tools = {"get_weather": get_weather, "send_email": send_email}
+
+while True:
+    reply = llm.chat(messages, tools=tool_descriptions)
+    if reply.wants_tool:
+        result = tools[reply.tool_name](**reply.arguments)
+        messages.append(result)          <span class="c"># give result back to LLM</span>
+    else:
+        print(reply.text)                <span class="c"># final answer</span>
+        break</code></pre>
+<p>Frameworks that do this for you: <b>Azure AI Agent Service</b>, <b>Semantic Kernel</b>, <b>AutoGen</b>, <b>LangChain/LangGraph</b>, and Anthropic's/OpenAI's agent SDKs.</p>`}
+ ],
+ videos:[
+  {u:ys("Copilot Studio tutorial for beginners build your first agent"), t:"Search: Copilot Studio beginner tutorial (latest)", s:"Tip: Anders Jensen and Reza Dorrani make excellent step-by-step ones", search:true},
+  {u:ys("Microsoft Reactor build AI agents Azure AI Foundry"), t:"Search: Azure AI Foundry agents (Microsoft Reactor)", s:"Microsoft's own free developer sessions", search:true},
+  {u:ys("extend Microsoft 365 Copilot connectors declarative agents"), t:"Search: Extending M365 Copilot (connectors & agents)", s:"Microsoft 365 Developer channel", search:true},
+  {u:ys("what are AI agents explained IBM Technology"), t:"Search: What are AI agents? (IBM Technology)", s:"Short, clear concept videos, ~10 min", search:true}
+ ],
+ quiz:[
+  {q:"What makes an agent different from a basic chatbot?", o:["It's faster","It can use tools and take actions","It has no LLM","It only works offline"], a:1, e:"Agents decide and act using tools, not just reply with text."},
+  {q:"Microsoft Graph gives Copilot…", o:["Charts","Access to your emails, files, meetings (with your permissions)","Faster internet","A new font"], a:1, e:"Graph is the data layer connecting your Microsoft 365 content."},
+  {q:"A non-developer HR team wants an FAQ bot in Teams by Friday. Best choice?", o:["Copilot Studio","Train a model from scratch","Write a CNN","Buy a GPU"], a:0, e:"Low-code Copilot Studio is fastest for this."},
+  {q:"In function calling, who actually runs the tool?", o:["The LLM itself","Your code","The user","Nobody"], a:1, e:"The LLM asks for the tool; your code runs it and returns the result."}
+ ],
+ task:{t:"Build a 'Design Studio Assistant' agent", steps:["Get access to Copilot Studio (trial) or use any free agent builder.","Write instructions: an assistant that answers clients' questions about your services, pricing and process.","Upload knowledge: a PDF of your services/FAQ (make one).","Add one action, e.g. 'collect client name + email + project type' and save to an Excel sheet.","Test 10 realistic questions; note where it fails and improve instructions.","Record a 1-minute screen video demo for your portfolio."]},
+ terms:[["Agent","AI that plans and takes actions with tools"],["Tool / Action","Something an agent can do (API, email, search)"],["Knowledge source","Documents an agent can search"],["Microsoft Graph","Data layer for M365 content"],["Connector","Bridge bringing external data/services in"],["Copilot Studio","Low-code agent builder"],["Azure AI Foundry","Pro-code AI app & agent platform"],["Function calling","LLM requesting your code to run a tool"]]
+},
+
+/* ===== MODULE 8 ===== */
+{
+ id:"m8", short:"Generative AI", title:"Module 8: Generative AI Literacy",
+ weeks:"Weeks 20–21 · ~15 hours",
+ intro:"How ChatGPT, Claude, Gemini and image generators work: LLMs, tokens, transformers, GANs, VAEs, diffusion, prompt engineering and RAG (giving AI your own documents).",
+ eli5:"Old AI could only sort and predict. Generative AI creates: writing, images, music, code. An LLM is a super-advanced autocomplete that has read most of the internet and learned to predict the next word extremely well.",
+ lessons:[
+  {t:"Quick recap: the 3 ways machines learn", b:`
+<ul>
+<li><b>Supervised</b>: learn from labelled examples (photo → "cat").</li>
+<li><b>Unsupervised</b>: find structure without labels (grouping news articles by topic).</li>
+<li><b>Reinforcement</b>: learn by reward (game AI; also <b>RLHF</b>, Reinforcement Learning from Human Feedback, which makes chatbots helpful and polite).</li>
+</ul>
+<p>LLMs use all three: <b>self-supervised</b> pre-training on huge text, <b>supervised</b> fine-tuning on good conversations, then <b>reinforcement</b> from human ratings.</p>`},
+  {t:"How LLMs work (tokens, training, context)", b:`
+<ol>
+<li>Text is split into <b>tokens</b> (word pieces). "Unbelievable" → "Un" + "believ" + "able".</li>
+<li>Each token becomes a list of numbers (an <b>embedding</b>) that captures meaning. "King" and "Queen" end up close together.</li>
+<li>The model predicts the <b>next token</b>, again and again, to build an answer.</li>
+<li><b>Pre-training</b>: read trillions of words → learn language and facts.</li>
+<li><b>Fine-tuning + RLHF</b>: learn to be a helpful assistant.</li>
+</ol>
+<p><b>Context window</b> = how much text the model can "see" at once (your prompt + documents + conversation).</p>
+<p><b>Temperature</b> = creativity dial. Low = predictable, high = creative/random.</p>
+<div class="callout warn"><b>Hallucinations</b>LLMs predict plausible text, not verified truth. They can confidently invent facts. That's why we use RAG and always verify important outputs.</div>`},
+  {t:"Transformers & attention", b:`
+<p>The <b>Transformer</b> (2017, "Attention Is All You Need") is the architecture behind GPT, Claude, Gemini (the "T" in GPT!).</p>
+<p>Its key idea: <b>attention</b>. Each word looks at all other words to understand context.</p>
+<div class="callout real"><b>Example</b>"The <b>bank</b> by the river" vs "The <b>bank</b> gave me a loan". Attention lets "bank" look at "river" or "loan" to know which meaning is right.</div>
+<ul>
+<li><b>GPT-style (decoder)</b>: great at generating text.</li>
+<li><b>BERT-style (encoder)</b>: great at understanding text (classification, search).</li>
+</ul>`},
+  {t:"Image & video generation: GANs, VAEs, Diffusion", b:`
+<ul>
+<li><b>GANs</b> (Generative Adversarial Networks): two networks compete. A <b>generator</b> makes fakes, a <b>discriminator</b> spots fakes. Like a forger vs a detective, both get better until fakes look real.</li>
+<li><b>VAEs</b> (Variational Autoencoders): compress an image into a small "idea" code, then rebuild it. Tweak the code → new images.</li>
+<li><b>Diffusion models</b> (DALL·E 3, Midjourney, Stable Diffusion, Firefly): learn to remove noise step by step. Start from random static, "denoise" into an image that matches your text prompt.</li>
+<li><b>Video</b> (Runway Gen-2 and newer, Sora, Veo): diffusion/transformer ideas extended across time.</li>
+</ul>
+<div class="callout tip"><b>For a designer</b>You already know these tools from the user side. Now you understand what's happening inside, which helps you write better prompts and spot limitations.</div>`},
+  {t:"Prompt engineering", b:`
+<p>A good prompt = <b>Role + Task + Context + Format + Examples + Constraints</b>.</p>
+<pre><code><span class="c">❌ Weak:</span>  Write a product description.
+
+<span class="c">✅ Strong:</span>
+You are a copywriter for a Lagos fashion brand.
+Write a product description for a handmade agbada.
+Audience: men 25–45 buying for weddings.
+Tone: premium but warm. Length: 60 words.
+Format: 1 headline + 1 paragraph + 3 bullet features.
+Avoid: clichés like "elevate your style".</code></pre>
+<p><b>Techniques:</b></p>
+<ul>
+<li><b>Few-shot</b>: show 2–3 examples of what you want.</li>
+<li><b>Chain of thought</b>: "Think step by step before answering."</li>
+<li><b>Structured output</b>: "Reply only in JSON with keys name, price."</li>
+<li><b>Iterate</b>: treat prompts like designs. Test, critique, refine.</li>
+</ul>`},
+  {t:"RAG: giving AI your own documents", b:`
+<p><b>RAG (Retrieval-Augmented Generation)</b> lets an LLM answer from <i>your</i> documents, reducing hallucinations.</p>
+<ol>
+<li><b>Chunk</b>: split your documents into small pieces.</li>
+<li><b>Embed</b>: turn each chunk into numbers (embeddings).</li>
+<li><b>Store</b>: save them in a <b>vector database</b> (Chroma, Azure AI Search, Pinecone).</li>
+<li><b>Retrieve</b>: when a question comes, find the most similar chunks.</li>
+<li><b>Generate</b>: send question + those chunks to the LLM → grounded answer with sources.</li>
+</ol>
+<div class="callout eli5"><b>Simple version</b>An open-book exam. Instead of answering from memory, the AI first looks up the relevant pages in your files, then answers.</div>
+<p>This is the #1 skill companies hire AI engineers for right now ("chat with our documents").</p>`}
+ ],
+ videos:[
+  {u:yt("zjkBMFhNj_g"), t:"Intro to Large Language Models", s:"Andrej Karpathy · 1 hr · The best plain-English LLM overview", tag:"Must watch"},
+  {u:ys("3Blue1Brown transformers the tech behind LLMs"), t:"Search: 3Blue1Brown – Transformers (Deep Learning Ch. 5)", s:"Gorgeous visual explanation · 27 min", search:true},
+  {u:yt("eMlx5fFNoYc"), t:"Attention in transformers, step-by-step (Ch. 6)", s:"3Blue1Brown · 26 min", tag:"Visual"},
+  {u:yt("7xTGNNLPyMI"), t:"Deep Dive into LLMs like ChatGPT", s:"Andrej Karpathy · 3.5 hrs · Watch in parts; how ChatGPT is built end to end", tag:"Go deeper"},
+  {u:yt("sVcwVQRHIc8"), t:"Learn RAG From Scratch", s:"freeCodeCamp / LangChain engineer · 2.5 hrs · Build RAG in Python", tag:"Hands-on"},
+  {u:ys("prompt engineering guide for beginners 2026"), t:"Search: Prompt engineering for beginners (latest)", s:"Also read Anthropic's & OpenAI's free prompting guides", search:true}
+ ],
+ quiz:[
+  {q:"At its core, an LLM is trained to…", o:["Search Google","Predict the next token","Draw images","Store passwords"], a:1, e:"LLMs predict the next token, repeatedly, to generate text."},
+  {q:"What does 'attention' let a transformer do?", o:["Run faster","Let each word consider other words for context","Generate images","Delete tokens"], a:1, e:"Attention weighs how relevant each word is to every other word."},
+  {q:"In a GAN, the discriminator's job is to…", o:["Generate images","Spot fakes","Store data","Write prompts"], a:1, e:"The discriminator judges real vs fake; the generator tries to fool it."},
+  {q:"RAG mainly helps by…", o:["Making images","Grounding answers in your own documents","Training a new LLM","Removing GPUs"], a:1, e:"It retrieves relevant text so the LLM answers from real sources."},
+  {q:"Which setting makes output more creative/random?", o:["Higher temperature","Lower temperature","Smaller context","Fewer tokens"], a:0, e:"Higher temperature increases randomness."}
+ ],
+ task:{t:"Project: 'Chat with my PDF' (RAG app)", steps:["Follow the RAG From Scratch video (first 3 parts) in Colab.","Use a free/cheap LLM API key (Anthropic, OpenAI, Google Gemini free tier, or Azure).","Load a PDF (e.g. a company handbook) with PyPDF, split into chunks, store in Chroma.","Ask 10 questions; make it show which chunk it used as the source.","Add a simple interface with Gradio (pip install gradio). You'll design it nicely!","Write a README with screenshots. This is a strong portfolio piece (matches the paid course's 'AI HR assistant with PDF extraction' project)."]},
+ terms:[["Generative AI","AI that creates new content"],["LLM","Large Language Model (ChatGPT, Claude, Gemini)"],["Token","A piece of a word the model reads"],["Embedding","Numbers representing meaning"],["Transformer","Architecture behind LLMs"],["Attention","Mechanism to weigh context"],["Hallucination","Confident but false output"],["GAN","Generator vs discriminator networks"],["VAE","Compress-then-rebuild generator"],["Diffusion","Generate by removing noise step by step"],["Prompt engineering","Crafting inputs for better outputs"],["RAG","Retrieve your docs, then generate"],["Vector database","Stores embeddings for similarity search"]]
+},
+
+/* ===== MODULE 9 ===== */
+{
+ id:"m9", short:"Capstone", title:"Module 9: AI Engineer Capstone Project",
+ weeks:"Weeks 22–24 · ~25 hours",
+ intro:"Combine everything into one polished, real-world portfolio project. This is what employers look at.",
+ eli5:"Everything so far was learning to cook individual dishes. The capstone is hosting a full dinner party: planning, cooking, presenting.",
+ lessons:[
+  {t:"Choosing a winning project", b:`
+<p>A great capstone is: <b>a real problem</b> + <b>real data</b> + <b>a working demo</b> + <b>a clear story</b>.</p>
+<p><b>Ideas (pick one or adapt):</b></p>
+<ul>
+<li>🧑‍💼 <b>AI HR assistant</b>: answers staff questions from policy PDFs (RAG + Gradio/Copilot Studio).</li>
+<li>🎨 <b>AI design critique tool</b>: upload a UI screenshot, get accessibility and UX feedback (vision LLM). Strong fit for a designer!</li>
+<li>🏥 <b>Health triage helper</b>: classify symptom descriptions into urgency levels (NLP classifier). Include a strong disclaimer.</li>
+<li>🛒 <b>Sales forecaster</b> for a small business (ML regression + dashboard).</li>
+<li>🧾 <b>Receipt/invoice reader</b>: extract amounts with Azure Document Intelligence → spreadsheet.</li>
+<li>🗺️ <b>Landmark classifier</b>: identify Nigerian landmarks from photos (CNN transfer learning).</li>
+</ul>
+<div class="callout tip"><b>Advice</b>Choose something connected to your industry or experience. Interviewers love "I built this because I saw this problem at work".</div>`},
+  {t:"Plan it like a product", b:`
+<p>Write a 1-page brief before coding:</p>
+<ol>
+<li><b>Problem</b>: who has it and why it matters</li>
+<li><b>Users</b>: who will use it</li>
+<li><b>Data</b>: where it comes from</li>
+<li><b>Approach</b>: ML model? RAG? Agent? Which Azure services?</li>
+<li><b>Success metric</b>: e.g. "80%+ accuracy" or "answers 9/10 test questions correctly"</li>
+<li><b>Scope</b>: MVP in 2 weeks, nice-to-haves later</li>
+</ol>`},
+  {t:"Build it step by step", b:`
+<ol>
+<li><b>Week 1</b>: get and clean data, EDA, baseline model or basic RAG working in Colab.</li>
+<li><b>Week 2</b>: improve (better model/prompts), evaluate properly, handle edge cases.</li>
+<li><b>Week 3</b>: build the interface (Gradio or Streamlit), deploy free on <a href="https://huggingface.co/spaces" target="_blank">Hugging Face Spaces</a>, write docs.</li>
+</ol>
+<pre><code><span class="c"># Minimal Gradio app: instant web UI</span>
+import gradio as gr
+
+def predict(text):
+    return my_model_or_llm(text)
+
+gr.Interface(fn=predict, inputs="text", outputs="text",
+             title="My AI Assistant").launch()</code></pre>`},
+  {t:"Present it for hiring", b:`
+<p>Your project page / GitHub README should have:</p>
+<ul>
+<li>A clear title + one-line value statement</li>
+<li>A GIF or screenshot of the app working</li>
+<li><b>Live demo link</b> (Hugging Face Space)</li>
+<li>Problem → Approach → Results (with numbers) → What I'd improve</li>
+<li>Tech stack list (Python, PyTorch, Azure AI, LangChain…)</li>
+<li>Responsible AI note: limitations, bias risks, privacy</li>
+</ul>
+<p>Then post a short case study on LinkedIn. Your design case-study skills transfer directly.</p>`}
+ ],
+ videos:[
+  {u:ys("Gradio tutorial for beginners build AI web app"), t:"Search: Gradio beginner tutorial", s:"Turn any model into a web app in minutes", search:true},
+  {u:ys("deploy Gradio app Hugging Face Spaces free"), t:"Search: Deploy free on Hugging Face Spaces", s:"Get a live demo link for your portfolio", search:true},
+  {u:ys("machine learning portfolio projects that get you hired"), t:"Search: ML portfolio projects that get hired", s:"How to present projects to recruiters", search:true}
+ ],
+ quiz:[
+  {q:"What makes a capstone most impressive to employers?", o:["Using the most complex algorithm","A real problem, working demo and clear story","Very long code","Copying a tutorial exactly"], a:1, e:"Employers want proof you can solve real problems end to end."},
+  {q:"Where can you deploy a Gradio app for free?", o:["Hugging Face Spaces","A USB stick","Microsoft Word","Nowhere"], a:0, e:"Hugging Face Spaces hosts Gradio/Streamlit apps free."},
+  {q:"What should you define before coding?", o:["Font choice","Problem, data, approach and success metric","Nothing","Logo"], a:1, e:"A clear brief prevents wasted effort."}
+ ],
+ task:{t:"Ship your capstone", steps:["Write your 1-page project brief.","Build the MVP in Colab (data + model or RAG).","Evaluate with a clear metric and test set.","Build a Gradio interface and deploy on Hugging Face Spaces.","Write a strong README with GIF, results and limitations.","Publish a LinkedIn post + add it to your portfolio site."]},
+ terms:[["MVP","Minimum Viable Product, the simplest working version"],["Baseline","A simple first model to beat"],["Deployment","Making your app usable online"],["Gradio / Streamlit","Python tools for quick AI web apps"],["Hugging Face Spaces","Free hosting for AI demos"],["README","The project's front page on GitHub"]]
+},
+
+/* ===== MODULE 10 ===== */
+{
+ id:"m10", short:"Electives", title:"Electives: NLP, Advanced GenAI & Agentic AI",
+ weeks:"Optional · after the core",
+ intro:"The paid program's electives, condensed: Natural Language Processing, Advanced Generative AI (GPT vs BERT, autoencoders), and multi-agent systems with AutoGen.",
+ eli5:"Bonus levels. Do them once the main course is done, or dip into the one that matches your capstone.",
+ lessons:[
+  {t:"NLP fundamentals", b:`
+<p><b>Natural Language Processing</b> = getting computers to work with human language.</p>
+<p><b>Classic pipeline:</b></p>
+<ol>
+<li><b>Tokenise</b>: split text into words.</li>
+<li><b>Clean</b>: lowercase, remove punctuation and "stopwords" (the, is, a).</li>
+<li><b>Stem / lemmatise</b>: "running", "ran" → "run".</li>
+<li><b>Vectorise</b>: turn text into numbers (Bag of Words, TF-IDF, or embeddings).</li>
+<li><b>Model</b>: classify, cluster, extract.</li>
+</ol>
+<pre><code>import nltk
+nltk.download("punkt"); nltk.download("punkt_tab")
+from nltk.tokenize import word_tokenize
+print(word_tokenize("AI engineers in Lagos are building cool things!"))</code></pre>
+<p><b>Common tasks:</b> sentiment analysis, named entity recognition (finding names, places), topic modelling, translation, summarisation.</p>
+<p>Today most NLP uses <b>Hugging Face Transformers</b>:</p>
+<pre><code>from transformers import pipeline
+clf = pipeline("sentiment-analysis")
+print(clf("The delivery was late but the food was amazing"))</code></pre>`},
+  {t:"Advanced GenAI: GPT vs BERT, autoencoders", b:`
+<table>
+<tr><th></th><th>BERT</th><th>GPT</th></tr>
+<tr><td>Type</td><td>Encoder</td><td>Decoder</td></tr>
+<tr><td>Reads</td><td>Both directions at once</td><td>Left → right</td></tr>
+<tr><td>Trained by</td><td>Filling in hidden words</td><td>Predicting the next word</td></tr>
+<tr><td>Best at</td><td>Understanding (classify, search)</td><td>Generating text</td></tr>
+</table>
+<p><b>Autoencoders</b>: networks that compress data then rebuild it. Used for denoising images, anomaly detection (things that rebuild badly are "unusual") and as the base for VAEs.</p>
+<p><b>Fine-tuning</b>: taking a pre-trained model and training it a bit more on your specific data (e.g. legal documents). Techniques like <b>LoRA</b> make this cheap.</p>`},
+  {t:"Agentic AI & multi-agent systems (AutoGen)", b:`
+<p><b>Multi-agent systems</b> = several specialised agents working as a team.</p>
+<div class="callout real"><b>Example</b>A "Researcher" agent finds information → a "Writer" agent drafts a report → a "Critic" agent reviews it → the Writer revises. Like a small agency team.</div>
+<p><b>AutoGen</b> (by Microsoft, open-source) makes these conversations between agents easy in Python. Similar frameworks: LangGraph, CrewAI, Semantic Kernel.</p>
+<p>Key design questions: Who decides what? When does a human approve? How do you stop endless loops? How do you keep costs down?</p>
+<p><b>Intelligent automation</b>: agents + traditional automation (Power Automate, scripts) to run whole business workflows.</p>`}
+ ],
+ videos:[
+  {u:ys("Hugging Face NLP course transformers tutorial beginners"), t:"Search: Hugging Face NLP / Transformers tutorials", s:"Also see the free Hugging Face LLM course at huggingface.co/learn", search:true},
+  {u:ys("freeCodeCamp natural language processing python course"), t:"Search: freeCodeCamp NLP with Python", s:"Full courses on NLTK, spaCy and classic NLP", search:true},
+  {u:ys("AutoGen tutorial multi agent beginners"), t:"Search: AutoGen multi-agent tutorial", s:"Microsoft's open-source agent framework", search:true},
+  {u:ys("freeCodeCamp agentic AI LangGraph course"), t:"Search: freeCodeCamp Agentic AI course", s:"Full free course on building multi-agent systems", search:true},
+  {u:"https://huggingface.co/learn", t:"Hugging Face Learn: free courses", s:"LLM, agents, diffusion & more, all free", tag:"Free courses"}
+ ],
+ quiz:[
+  {q:"Which model type is best for generating long text?", o:["BERT","GPT","K-Means","CNN"], a:1, e:"GPT (decoder) is built to generate the next word."},
+  {q:"Turning 'running' and 'ran' into 'run' is called…", o:["Tokenising","Lemmatising","Embedding","Clustering"], a:1, e:"Lemmatisation reduces words to their base form."},
+  {q:"A Researcher + Writer + Critic agent team is an example of…", o:["A CNN","A multi-agent system","Overfitting","A spreadsheet"], a:1, e:"Multiple specialised agents collaborating = multi-agent system."}
+ ],
+ task:{t:"Mini-project: Review analyser", steps:["Collect 100 product or app reviews (e.g. from a Kaggle dataset).","Use a Hugging Face sentiment pipeline to label them.","Extract the top complaint themes (keywords or ask an LLM to summarise).","Visualise results in a clean chart.","Bonus: build a 2-agent AutoGen setup where one agent summarises and another suggests product improvements."]},
+ terms:[["NLP","Computers working with human language"],["Tokenisation","Splitting text into pieces"],["Stopwords","Common words often removed"],["TF-IDF","Scores word importance in a document"],["BERT","Encoder model for understanding"],["Fine-tuning","Extra training on your data"],["LoRA","Cheap fine-tuning technique"],["Multi-agent system","Several AI agents collaborating"],["AutoGen","Microsoft's multi-agent framework"]]
+}
+];
+
+/* ---------- STATE ---------- */
+const KEY = "aiAcademyProgress_v1";
+let state = {done:{}, quiz:{}};
+try { const s = localStorage.getItem(KEY); if (s) state = Object.assign(state, JSON.parse(s)); } catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+
+let current = null;   // null = home
+let currentTab = "lessons";
+
+const totalLessons = MODULES.reduce((n,m)=>n+m.lessons.length,0);
+const doneCount = () => Object.keys(state.done).filter(k=>state.done[k]).length;
+const modDone = m => m.lessons.filter((_,i)=>state.done[m.id+"-"+i]).length;
+
+/* ---------- RENDER: SIDEBAR ---------- */
+function renderSide(){
+  const pct = Math.round(doneCount()/totalLessons*100);
+  let h = `<div class="brand"><div class="logo">AI</div><b>AI Engineer Academy</b></div>
+  <div class="overall"><div class="bar"><i style="width:${pct}%"></i></div><small>${pct}% complete · ${doneCount()}/${totalLessons} lessons</small></div>
+  <button class="navitem ${current===null?'active':''}" data-go="home"><span class="num">⌂</span><span class="t">Course overview & plan</span></button>
+  <div class="navlabel">Modules</div>`;
+  MODULES.forEach((m,i)=>{
+    const d = modDone(m), full = d===m.lessons.length;
+    h += `<button class="navitem ${current===i?'active':''} ${full?'done':''}" data-go="${i}">
+      <span class="num">${full?'✓':i}</span><span class="t">${m.short}<br><span class="p">${d}/${m.lessons.length} lessons</span></span></button>`;
+  });
+  h += `<div class="navlabel">Reset</div><button class="navitem" id="resetBtn"><span class="num">↺</span><span class="t">Reset my progress</span></button>`;
+  document.getElementById("side").innerHTML = h;
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{go(b.dataset.go==="home"?null:+b.dataset.go)});
+  document.getElementById("resetBtn").onclick = ()=>{
+    const btn=document.getElementById("resetBtn");
+    if(btn.dataset.confirm){ state={done:{},quiz:{}}; save(); go(current); }
+    else { btn.dataset.confirm="1"; btn.querySelector(".t").textContent="Tap again to confirm reset"; }
+  };
+}
+
+/* ---------- RENDER: HOME ---------- */
+function topbar(){
+  const pct = Math.round(doneCount()/totalLessons*100);
+  return `<div class="topbar"><button id="menuBtn">☰ Modules</button><div class="bar"><i style="width:${pct}%"></i></div><small style="font-size:12px;color:var(--muted)">${pct}%</small></div>`;
+}
+function renderHome(){
+  let cards = MODULES.map((m,i)=>{
+    const d=modDone(m), p=Math.round(d/m.lessons.length*100);
+    return `<div class="mcard" data-go="${i}"><div class="k">${i===0?'START':'MODULE '+i} · ${m.weeks}</div><h3>${m.short}</h3><p>${m.intro.split('. ')[0]}.</p><div class="bar"><i style="width:${p}%"></i></div></div>`;
+  }).join("");
+  document.getElementById("main").innerHTML = topbar()+`
+  <div class="hero">
+    <div class="eyebrow">Free self-study version</div>
+    <h1>Become an AI Engineer, step by step</h1>
+    <p class="lead">A beginner-friendly course built around the Microsoft AI Engineer program curriculum: simple lessons, the best free YouTube videos, quizzes and real projects. No payment, no prior experience needed.</p>
+    <div class="meta"><span class="chip">📚 11 modules · ${totalLessons} lessons</span><span class="chip">⏱ ~24 weeks at 6–10 hrs/week</span><span class="chip">🎬 Curated free videos</span><span class="chip">🛠 Portfolio projects</span></div>
+  </div>
+  <div class="card">
+    <h2>Your 24-week roadmap</h2>
+    <table>
+      <tr><th>Weeks</th><th>Module</th><th>You'll be able to…</th></tr>
+      <tr><td>0–1</td><td>Start Here + Programming Basics</td><td>Understand how code & computers work</td></tr>
+      <tr><td>2–4</td><td>Python for AI</td><td>Write real Python programs with classes</td></tr>
+      <tr><td>5–7</td><td>Data Science</td><td>Clean, analyse and chart any dataset</td></tr>
+      <tr><td>8–11</td><td>Machine Learning</td><td>Build & evaluate prediction models</td></tr>
+      <tr><td>12–15</td><td>Deep Learning</td><td>Train neural networks in PyTorch</td></tr>
+      <tr><td>16–17</td><td>Azure AI Fundamentals</td><td>Use cloud AI services; sit the cert</td></tr>
+      <tr><td>18–19</td><td>AI Agents & Copilot</td><td>Build agents that take actions</td></tr>
+      <tr><td>20–21</td><td>Generative AI</td><td>Understand LLMs, prompt well, build RAG</td></tr>
+      <tr><td>22–24</td><td>Capstone</td><td>Ship a live portfolio project</td></tr>
+    </table>
+    <div class="callout tip"><b>Can't do 6–10 hrs/week?</b>That's fine. At 4 hrs/week it takes about 9 months. Consistency beats speed.</div>
+  </div>
+  <h2 style="margin-top:28px">Modules</h2>
+  <div class="grid2">${cards}</div>
+  <div class="footer">Videos are free on YouTube and belong to their creators. Links marked "Search" open a fresh YouTube search so you always get current results. Progress is saved in this browser only.</div>`;
+  bindCommon();
+  document.querySelectorAll(".mcard").forEach(c=>c.onclick=()=>go(+c.dataset.go));
+}
+
+/* ---------- RENDER: MODULE ---------- */
+function vidHTML(v){
+  const icon = v.search
+    ? `<div class="play search"><svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 016.32 12.9l5.39 5.4-1.41 1.4-5.4-5.39A8 8 0 1110 2zm0 2a6 6 0 100 12 6 6 0 000-12z"/></svg></div>`
+    : `<div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>`;
+  const tag = v.search ? "YouTube search" : (v.tag||"");
+  return `<a class="vid" href="${v.u}" target="_blank" rel="noopener">${icon}<div>${tag?`<em>${tag}</em>`:''}<b>${v.t}</b><span>${v.s}</span></div></a>`;
+}
+
+function renderModule(i){
+  const m = MODULES[i];
+  const tabs = [["lessons","📖 Lessons"],["videos","🎬 Videos"],["quiz","✅ Quiz"],["practice","🛠 Practice"],["terms","🔤 Key terms"]];
+  let body = "";
+  if(currentTab==="lessons"){
+    body = m.lessons.map((l,j)=>{
+      const k=m.id+"-"+j, d=!!state.done[k];
+      return `<details class="lesson ${d?'isdone':''}" ${j===0&&!d?'open':''}>
+        <summary><span class="chk">${d?'✓':''}</span><span>${j+1}. ${l.t}</span><span class="arrow">›</span></summary>
+        <div class="lbody">${l.b}<button class="markbtn ${d?'undo':''}" data-k="${k}">${d?'Mark as not done':'✓ Mark as done'}</button></div>
+      </details>`;
+    }).join("");
+  } else if(currentTab==="videos"){
+    body = `<p style="color:var(--muted);font-size:14.5px">Watch in this order. Code along in Colab as you go.</p>` + m.videos.map(vidHTML).join("");
+  } else if(currentTab==="quiz"){
+    const res = state.quiz[m.id];
+    body = `<div class="card">` + m.quiz.map((q,qi)=>`
+      <div class="q" data-qi="${qi}"><p>${qi+1}. ${q.q}</p>
+      ${q.o.map((o,oi)=>`<button class="opt" data-qi="${qi}" data-oi="${oi}">${o}</button>`).join("")}
+      <div class="expl" id="ex-${qi}"></div></div>`).join("") +
+      `<div class="score" id="score">${res!==undefined?`Last score: ${res}/${m.quiz.length}`:''}</div>
+      <button class="btn ghost" id="retry" style="margin-top:10px">Retry quiz</button></div>`;
+  } else if(currentTab==="practice"){
+    body = `<div class="task"><h3>🛠 ${m.task.t}</h3><ol>${m.task.steps.map(s=>`<li>${s}</li>`).join("")}</ol>
+    <div class="callout tip" style="background:#fff"><b>Stuck?</b>Paste your code and error into an AI and ask: "I'm a beginner. Explain what's wrong and how to fix it, step by step."</div></div>`;
+  } else if(currentTab==="terms"){
+    body = `<div class="gloss">${m.terms.map(t=>`<div class="term"><b>${t[0]}</b><span>${t[1]}</span></div>`).join("")}</div>`;
+  }
+
+  document.getElementById("main").innerHTML = topbar()+`
+   <div class="eyebrow">${i===0?'Start here':'Module '+i} · ${m.weeks}</div>
+   <h1 style="font-size:32px">${m.title}</h1>
+   <p class="lead">${m.intro}</p>
+   <div class="callout eli5"><b>Explain it like I'm new</b>${m.eli5}</div>
+   <div class="tabs">${tabs.map(t=>`<button class="tab ${currentTab===t[0]?'on':''}" data-tab="${t[0]}">${t[1]}</button>`).join("")}</div>
+   <div id="tabbody">${body}</div>
+   <div class="navbtns">
+     ${i>0?`<button class="btn ghost" data-go="${i-1}">← ${MODULES[i-1].short}</button>`:`<button class="btn ghost" data-go="home">← Overview</button>`}
+     ${i<MODULES.length-1?`<button class="btn" data-go="${i+1}">${MODULES[i+1].short} →</button>`:''}
+   </div>`;
+  bindCommon();
+  document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{currentTab=t.dataset.tab;renderModule(i);});
+  document.querySelectorAll(".main [data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go==="home"?null:+b.dataset.go));
+  document.querySelectorAll(".markbtn").forEach(b=>b.onclick=(e)=>{
+    e.stopPropagation(); const k=b.dataset.k; state.done[k]=!state.done[k]; save();
+    renderSide(); renderModule(i);
+    // reopen next lesson
+    const idx=+k.split("-")[1]; const all=document.querySelectorAll(".lesson");
+    if(state.done[k] && all[idx+1]){ all[idx+1].open=true; all[idx+1].scrollIntoView({behavior:"smooth",block:"start"}); }
+  });
+  if(currentTab==="quiz") bindQuiz(m);
+}
+
+function bindQuiz(m){
+  const answered = {}; let right=0;
+  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const qi=+b.dataset.qi, oi=+b.dataset.oi; if(answered[qi]!==undefined) return;
+    answered[qi]=oi; const q=m.quiz[qi];
+    document.querySelectorAll(`.opt[data-qi="${qi}"]`).forEach(x=>{
+      const xi=+x.dataset.oi; if(xi===q.a) x.classList.add("right"); else if(xi===oi) x.classList.add("wrong");
+    });
+    if(oi===q.a) right++;
+    const ex=document.getElementById("ex-"+qi); ex.innerHTML=(oi===q.a?"✅ Correct! ":"❌ Not quite. ")+q.e; ex.classList.add("show");
+    if(Object.keys(answered).length===m.quiz.length){
+      state.quiz[m.id]=right; save();
+      const pct=right/m.quiz.length;
+      document.getElementById("score").innerHTML=`You scored ${right}/${m.quiz.length} ${pct>=0.8?"🎉 Excellent! Move on.":pct>=0.5?"👍 Good. Re-read the lessons you missed.":"📖 Review the lessons and try again."}`;
+    }
+  });
+  document.getElementById("retry").onclick=()=>renderModule(current);
+}
+
+function bindCommon(){
+  const mb=document.getElementById("menuBtn");
+  if(mb) mb.onclick=()=>{document.getElementById("side").classList.add("open");document.getElementById("scrim").classList.add("show");};
+}
+document.getElementById("scrim").onclick=closeMenu;
+function closeMenu(){document.getElementById("side").classList.remove("open");document.getElementById("scrim").classList.remove("show");}
+
+function go(i){
+  current = i; currentTab="lessons"; closeMenu();
+  try{ history.replaceState(null,"", i===null?"#overview":"#module-"+i); }catch(e){}
+  renderSide(); i===null?renderHome():renderModule(i);
+  window.scrollTo(0,0);
+}
+
+/* initial route */
+(function(){
+  const h=location.hash.replace("#","");
+  const mm=h.match(/^module-(\d+)$/);
+  go(mm && MODULES[+mm[1]] ? +mm[1] : null);
+})();
+window.addEventListener("hashchange",()=>{
+  const mm=location.hash.match(/^#module-(\d+)$/);
+  const t = mm && MODULES[+mm[1]] ? +mm[1] : null;
+  if(t!==current) go(t);
+});
+</script>
+</body>
+</html>
