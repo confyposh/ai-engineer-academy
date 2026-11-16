@@ -90,6 +90,9 @@ function makeDraggable(el,bounds){
   el.addEventListener("pointerup",()=>{el.classList.remove("drag");if(moved)blip("flip");});
 }
 
+
+/* ---- track switcher in top bar ---- */
+if(T.otherLink){const nv=document.querySelector(".nav .sp");if(nv){const l=document.createElement("a");l.className="pill";l.href=T.otherLink.url;l.style.textDecoration="none";l.style.color="var(--ink)";l.title=T.otherLink.label;l.innerHTML=`⇄ <span class="hide-s">${T.otherLink.label}</span><span class="show-s">${T.otherLink.short||T.otherLink.label.split(":")[0]}</span>`;nv.after(l);}}
 /* ---- nav ---- */
 function updateNav(){document.getElementById("xp").textContent=S.xp;document.getElementById("streak").textContent=streak();document.getElementById("snd").textContent=S.sound?"🔊":"🔈";}
 document.getElementById("snd").onclick=()=>{S.sound=!S.sound;save();updateNav();toast(S.sound?"🔊 Sound on":"🔈 Sound off");};
